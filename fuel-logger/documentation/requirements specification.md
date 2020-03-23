@@ -11,11 +11,9 @@ need for them.
 
 ## Basic functionality
 * Graphical user interface
-* Adding a car
-** Name, fuel tank capacity etc.
+* Adding a car (name, fuel tank capacity etc.)
 * Selecting a car to use
-* Logging a refueling
-** Kilometrage, volume in litres, cost per litre (in euros)
+* Logging a refueling (kilometrage, volume in litres, cost per litre (in euros))
 * Viewing average fuel consumption
 * Viewing graphs of fuel consumption
 * Viewing graphs of cost
@@ -35,3 +33,6 @@ graphical UI
 (Linux, macOS and Windows)
 * Only supports SI units and euros
 * Data is saved locally
+
+## UI draft
+![UI draft](https://raw.githubusercontent.com/Lukxsx/ot-harjoitustyo/master/fuel-logger/documentation/ui%20draft.jpg)
