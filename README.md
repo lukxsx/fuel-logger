@@ -4,6 +4,7 @@ Tämä on _ohjelmistotekniikka_-kurssin **harjoitustyö**.
 
 ## Harjoitustyö
 [Harjoitustyöhön](https://github.com/Lukxsx/ot-harjoitustyo/tree/master/fuel-logger)
+
 [Vaatimusmäärittely](https://github.com/Lukxsx/ot-harjoitustyo/blob/master/fuel-logger/documentation/requirements%20specification.md)
 
 ## Tehtävät
