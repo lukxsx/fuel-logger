@@ -20,10 +20,17 @@ public class DatabaseTest {
     }
 
     @Test
-    public void addingNewCar() throws SQLException {
+    public void addingNewCarReturnsTrue() throws SQLException {
+        d.clear();
         Car c = new Car("Volvo", 80);
         assertEquals(true, d.addCar(c));
-
+    }
+    
+    @Test
+    public void addingNewCarWorks() throws SQLException {
+        d.clear();
+        Car c = new Car("Volvo", 80);
+        d.addCar(c);
         ArrayList<Car> cars = d.getCars();
         assertEquals(1, cars.size());
 
