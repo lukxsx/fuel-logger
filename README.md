@@ -1,20 +1,25 @@
-# ot-harjoitustyö
+# Fuel logger
 
-Tämä on _ohjelmistotekniikka_-kurssin **harjoitustyö**. 
+A program to keep a log of car's fuel consumption. 
 
-## Harjoitustyö
-[Harjoitustyöhön](https://github.com/Lukxsx/ot-harjoitustyo/tree/master/fuel-logger)
+## Documentation
+[Requirements specification](fuel-logger/documentation/requirements%20specification.md)
+[Working hours](fuel-logger/documentation/working%20hours.md)
 
-[Vaatimusmäärittely](https://github.com/Lukxsx/ot-harjoitustyo/blob/master/fuel-logger/documentation/requirements%20specification.md)
+## Commands
 
-[Työaikakirjanpito](https://github.com/Lukxsx/ot-harjoitustyo/blob/master/fuel-logger/documentation/working%20hours.md)
+### Tests
+Run tests
+```
+mvn test
+```
 
-## Tehtävät
-### Viikko 1
-[gitlog.txt](https://github.com/Lukxsx/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
+Test coverage
+```
+mvn test jacoco:report
+```
 
-[komentorivi.txt](https://github.com/Lukxsx/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
-
-### [Viikko 2](laskarit/viikko2)
-
-### [Viikko 3](laskarit/viikko3)
+Running
+```
+mvn compile exec:java -Dexec.mainClass=fuellogger.Main
+```
