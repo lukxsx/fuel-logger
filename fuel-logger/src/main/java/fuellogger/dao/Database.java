@@ -4,23 +4,22 @@ import fuellogger.domain.Car;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class Database {
 
     Connection db;
-
-    public Database() throws SQLException {
+    
+    public Database(String filename) throws SQLException {
+        
         // check if database file already exists
-        File check = new File("database.db");
+        File check = new File(filename);
 
         if (check.exists()) {
             // if exists, establish a connection
-            db = DriverManager.getConnection("jdbc:sqlite:database.db");
+            db = DriverManager.getConnection("jdbc:sqlite:" + filename);
         } else {
             // if not, establish a connection and create tables
-            db = DriverManager.getConnection("jdbc:sqlite:database.db");
+            db = DriverManager.getConnection("jdbc:sqlite:" + filename);
 
             Statement s = db.createStatement();
             s.execute("CREATE TABLE Car (id INTEGER PRIMARY KEY, name TEXT,"
@@ -52,5 +51,13 @@ public class Database {
                     carResults.getInt("fuel_capacity")));
         }
         return cars;
+    }
+    
+    public void clear() throws SQLException {
+        // used for tests
+        Statement s = db.createStatement();
+        s.execute("DELETE FROM Car");
+        s.execute("DELETE FROM Refill");
+        
     }
 }

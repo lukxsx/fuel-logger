@@ -23,7 +23,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Database db = new Database();
+        Database db = new Database("database.db");
 
         // window settings
         primaryStage.setTitle("Fuel logger");
