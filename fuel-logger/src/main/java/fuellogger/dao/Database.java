@@ -33,9 +33,10 @@ public class Database {
     }
 
     public boolean addCar(Car car) {
-        try ( Statement s = db.createStatement()) {
-            s.execute("INSERT INTO Car (name, fuel_capacity) VALUES "
-                    + "(" + car.getName() + ", " + car.getFuelcapacity() + ")");
+        try (PreparedStatement s = db.prepareStatement("INSERT INTO Car(name, fuel_capacity) VALUES (?, ?)")) {
+            s.setString(1, car.getName());
+            s.setInt(2, car.getFuelcapacity());
+            s.executeUpdate();
         } catch (Exception e) {
             return false;
         }

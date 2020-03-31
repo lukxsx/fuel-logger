@@ -2,6 +2,7 @@ package fuellogger.gui;
 
 import fuellogger.dao.Database;
 import fuellogger.domain.Car;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -45,6 +46,12 @@ public class GUI extends Application {
 
         // date for table
         ObservableList<Car> carData = FXCollections.observableArrayList();
+        
+        // get cars from the database
+        ArrayList<Car> cars = db.getCars();
+        for (Car c: cars) {
+            carData.add(c);
+        }
         carSelect.setItems(carData);
 
         // car adding dialog
@@ -55,7 +62,12 @@ public class GUI extends Application {
         Button csAddButton = new Button("Add");
 
         csAddButton.setOnAction((ActionEvent e) -> {
-            carData.add(new Car(csNameField.getText(), Integer.valueOf(csFuelCField.getText())));
+            Car c = new Car(csNameField.getText(), Integer.valueOf(csFuelCField.getText()));
+            System.out.println(c);
+            db.addCar(c);
+            carData.add(c);
+            csNameField.clear();
+            csFuelCField.clear();
         });
         
         HBox csAddLayout = new HBox();
