@@ -26,7 +26,7 @@ public class Database {
             s.execute("CREATE TABLE Car (id INTEGER PRIMARY KEY, name TEXT UNIQUE,"
                     + " fuel_capacity INTEGER NOT NULL)");
             s.execute("CREATE TABLE Refueling (id INTEGER PRIMARY KEY, "
-                    + "car_id INTEGER, odometer INTEGER, volume REAL"
+                    + "car_id INTEGER, odometer INTEGER UNIQUE, volume REAL"
                     + ", day INTEGER, month INTEGER, year INTEGER)");
         }
 
@@ -123,7 +123,6 @@ public class Database {
             Refueling r = new Refueling(car, refResults.getInt("odometer"),
             refResults.getDouble("volume"), refResults.getInt("day"),
             refResults.getInt("month"), refResults.getInt("year"));
-            System.out.println(r);
             refuelings.add(r);
         }
         

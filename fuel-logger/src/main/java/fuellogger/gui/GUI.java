@@ -2,7 +2,12 @@ package fuellogger.gui;
 
 import fuellogger.domain.Car;
 import fuellogger.domain.Logic;
+import fuellogger.domain.Refueling;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -30,18 +35,17 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        
-        l = new Logic();  
+
+        l = new Logic();
         this.currentCar = null;
         // window settings
         primaryStage.setTitle("Fuel logger");
-        
+
         /*
         *
         *   Car selection view
         *
-        */
-        
+         */
         VBox carSelectLayout = new VBox();
 
         Label carSelectInfo = new Label("Select a car to use");
@@ -53,8 +57,8 @@ public class GUI extends Application {
 
         TableColumn<String, Car> csNameColumn = new TableColumn("Car");
         csNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        TableColumn csOdometerColumn = new TableColumn("Odometer");
-        carSelect.getColumns().addAll(csNameColumn, csOdometerColumn);
+        //TableColumn csOdometerColumn = new TableColumn("Odometer");
+        carSelect.getColumns().addAll(csNameColumn);
 
         // date for table
         ObservableList<Car> carData = FXCollections.observableArrayList();
@@ -76,7 +80,11 @@ public class GUI extends Application {
                 System.out.println(selectedCar.get(0));
                 currentCar = selectedCar.get(0);
                 System.out.println(currentCar);
-                refuelingsScene = refuelScene();
+                try {
+                    refuelingsScene = refuelScene();
+                } catch (SQLException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 primaryStage.setScene(refuelingsScene);
             }
         });
@@ -96,7 +104,7 @@ public class GUI extends Application {
             csNameField.clear();
             csFuelCField.clear();
         });
-        
+
         Label csAddInfo = new Label("Add a new car");
         HBox csAddLayout = new HBox();
         csAddLayout.getChildren().addAll(csNameField, csFuelCField, csAddButton);
@@ -110,7 +118,6 @@ public class GUI extends Application {
         carSelectLayout.getChildren().add(csAddLayout);
 
         carSelectScene = new Scene(carSelectLayout);
-        
 
         refuelingsScene = null;
 
@@ -121,20 +128,51 @@ public class GUI extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
-    public Scene refuelScene() {
+
+    public Scene refuelScene() throws SQLException {
         /*
         *
         *   Refuelings view
         *
-        */
-                
+         */
+
         VBox refuelLayout = new VBox();
-        
+
+        HBox refuelTopLayout = new HBox();
+        refuelTopLayout.setSpacing(20);
+
         Label rfCarLabel = new Label();
-        rfCarLabel.setText(currentCar.getName());
-        refuelLayout.getChildren().add(rfCarLabel);
-        
+        rfCarLabel.setText("Selected car: " + currentCar.getName());
+
+        Label rfAvgConsumption = new Label();
+        double avg = l.avgConsumption(currentCar);
+        DecimalFormat df = new DecimalFormat("#.##");
+        rfAvgConsumption.setText("Average consumption: " + df.format(avg) + " l/100km");
+        refuelTopLayout.getChildren().add(rfCarLabel);
+        refuelTopLayout.getChildren().add(rfAvgConsumption);
+
+        TableView refills = new TableView();
+        refills.setEditable(true);
+
+        TableColumn<Integer, Refueling> rfOdometerColumn = new TableColumn("Odometer");
+        rfOdometerColumn.setCellValueFactory(new PropertyValueFactory<>("odometer"));
+        TableColumn<Double, Refueling> rfVolumeColumn = new TableColumn("Volume");
+        rfVolumeColumn.setCellValueFactory(new PropertyValueFactory<>("volume"));
+
+        refills.getColumns().addAll(rfOdometerColumn, rfVolumeColumn);
+
+        // date for table
+        ObservableList<Refueling> refuelingData = FXCollections.observableArrayList();
+
+        // get cars from the database
+        ArrayList<Refueling> ref = l.getRefuelings(currentCar);
+        for (Refueling r : ref) {
+            refuelingData.add(r);
+        }
+        refills.setItems(refuelingData);
+
+        refuelLayout.getChildren().add(refuelTopLayout);
+        refuelLayout.getChildren().add(refills);
         Scene rfs = new Scene(refuelLayout);
         return rfs;
     }

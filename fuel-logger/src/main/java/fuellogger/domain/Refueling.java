@@ -2,7 +2,7 @@ package fuellogger.domain;
 
 import java.util.Objects;
 
-public class Refueling {
+public class Refueling implements Comparable<Refueling> {
     public Car car;
     public int odometer;
     public double volume;
@@ -68,6 +68,43 @@ public class Refueling {
             return false;
         }
         return true;
+    }
+
+    public int getOdometer() {
+        return odometer;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public double getVolume() {
+        return volume;
+    }
+    
+    
+
+    @Override
+    public int compareTo(Refueling t) {
+        if (t.odometer < this.odometer) {
+            return 1;
+        }
+        if (t.odometer > this.odometer) {
+            return -1;
+        }
+        return 0;
     }
     
     
