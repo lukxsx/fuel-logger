@@ -12,8 +12,10 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
@@ -21,13 +23,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
-    
+
     private Logic l;
+    private Car currentCar;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         l = new Logic();
-        
+
         // window settings
         primaryStage.setTitle("Fuel logger");
 
@@ -40,22 +43,33 @@ public class GUI extends Application {
         // tableview for car selection
         TableView carSelect = new TableView();
         carSelect.setEditable(true);
-        
-        TableColumn csNameColumn = new TableColumn("Car");
+
+        TableColumn<String, Car> csNameColumn = new TableColumn("Car");
         csNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn csOdometerColumn = new TableColumn("Odometer");
-        TableColumn csAvgColumn = new TableColumn("Avg. consumption");
-        carSelect.getColumns().addAll(csNameColumn, csOdometerColumn, csAvgColumn);
+        carSelect.getColumns().addAll(csNameColumn, csOdometerColumn);
 
         // date for table
         ObservableList<Car> carData = FXCollections.observableArrayList();
-        
+
         // get cars from the database
         ArrayList<Car> cars = l.cars;
-        for (Car c: cars) {
+        for (Car c : cars) {
             carData.add(c);
         }
         carSelect.setItems(carData);
+
+        // car selection button
+        TableViewSelectionModel<Car> CSselectionModel = carSelect.getSelectionModel();
+        CSselectionModel.setSelectionMode(SelectionMode.SINGLE);
+        Button csSelectButton = new Button("Select");
+        csSelectButton.setOnAction((ActionEvent e) -> {
+            ObservableList<Car> selectedCar = CSselectionModel.getSelectedItems();
+            if (!(selectedCar.size() == 0)) {
+                System.out.println(selectedCar.get(0));
+                currentCar = selectedCar.get(0);
+            }
+        });
 
         // car adding dialog
         TextField csNameField = new TextField();
@@ -73,12 +87,16 @@ public class GUI extends Application {
             csFuelCField.clear();
         });
         
+        Label csAddInfo = new Label("Add a new car");
         HBox csAddLayout = new HBox();
         csAddLayout.getChildren().addAll(csNameField, csFuelCField, csAddButton);
         csAddLayout.setSpacing(5);
-        
+
         // car select layout
+        carSelectLayout.setSpacing(10);
         carSelectLayout.getChildren().add(carSelect);
+        carSelectLayout.getChildren().add(csSelectButton);
+        carSelectLayout.getChildren().add(csAddInfo);
         carSelectLayout.getChildren().add(csAddLayout);
 
         Scene carSelectScene = new Scene(carSelectLayout);
