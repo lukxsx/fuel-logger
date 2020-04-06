@@ -2,6 +2,7 @@ package fuellogger.gui;
 
 import fuellogger.dao.Database;
 import fuellogger.domain.Car;
+import fuellogger.domain.Logic;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -20,10 +21,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
+    
+    private Logic l;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Database db = new Database("database.db");
+        l = new Logic();
         
         // window settings
         primaryStage.setTitle("Fuel logger");
@@ -48,7 +51,7 @@ public class GUI extends Application {
         ObservableList<Car> carData = FXCollections.observableArrayList();
         
         // get cars from the database
-        ArrayList<Car> cars = db.getCars();
+        ArrayList<Car> cars = l.cars;
         for (Car c: cars) {
             carData.add(c);
         }
@@ -64,7 +67,7 @@ public class GUI extends Application {
         csAddButton.setOnAction((ActionEvent e) -> {
             Car c = new Car(csNameField.getText(), Integer.valueOf(csFuelCField.getText()));
             System.out.println(c);
-            db.addCar(c);
+            l.addCar(c);
             carData.add(c);
             csNameField.clear();
             csFuelCField.clear();
