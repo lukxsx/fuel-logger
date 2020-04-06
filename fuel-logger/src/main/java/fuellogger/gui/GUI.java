@@ -1,6 +1,5 @@
 package fuellogger.gui;
 
-import fuellogger.dao.Database;
 import fuellogger.domain.Car;
 import fuellogger.domain.Logic;
 import java.util.ArrayList;
@@ -25,16 +24,24 @@ import javafx.stage.Stage;
 public class GUI extends Application {
 
     private Logic l;
-    private Car currentCar;
+    Scene refuelingsScene;
+    Scene carSelectScene;
+    Car currentCar;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        l = new Logic();
-
+        
+        l = new Logic();  
+        this.currentCar = null;
         // window settings
         primaryStage.setTitle("Fuel logger");
-
-        // car selection view
+        
+        /*
+        *
+        *   Car selection view
+        *
+        */
+        
         VBox carSelectLayout = new VBox();
 
         Label carSelectInfo = new Label("Select a car to use");
@@ -68,6 +75,9 @@ public class GUI extends Application {
             if (!(selectedCar.size() == 0)) {
                 System.out.println(selectedCar.get(0));
                 currentCar = selectedCar.get(0);
+                System.out.println(currentCar);
+                refuelingsScene = refuelScene();
+                primaryStage.setScene(refuelingsScene);
             }
         });
 
@@ -99,7 +109,10 @@ public class GUI extends Application {
         carSelectLayout.getChildren().add(csAddInfo);
         carSelectLayout.getChildren().add(csAddLayout);
 
-        Scene carSelectScene = new Scene(carSelectLayout);
+        carSelectScene = new Scene(carSelectLayout);
+        
+
+        refuelingsScene = null;
 
         primaryStage.setScene(carSelectScene);
         primaryStage.show();
@@ -107,6 +120,23 @@ public class GUI extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public Scene refuelScene() {
+        /*
+        *
+        *   Refuelings view
+        *
+        */
+                
+        VBox refuelLayout = new VBox();
+        
+        Label rfCarLabel = new Label("a");
+        rfCarLabel.setText(currentCar.getName());
+        refuelLayout.getChildren().add(rfCarLabel);
+        
+        Scene rfs = new Scene(refuelLayout);
+        return rfs;
     }
 
 }
