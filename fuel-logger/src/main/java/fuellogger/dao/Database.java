@@ -24,7 +24,7 @@ public class Database {
 
             Statement s = db.createStatement();
             s.execute("CREATE TABLE Car (id INTEGER PRIMARY KEY, name TEXT UNIQUE,"
-                    + " fuel_capacity INTEGER)");
+                    + " fuel_capacity INTEGER NOT NULL)");
             s.execute("CREATE TABLE Refueling (id INTEGER PRIMARY KEY, "
                     + "car_id INTEGER, odometer INTEGER, volume REAL"
                     + ", day INTEGER, month INTEGER, year INTEGER)");
@@ -85,6 +85,49 @@ public class Database {
             return 0;
         }
         
+    }
+    
+    public Car getCar(int id) throws SQLException {
+        PreparedStatement carQuery = db.prepareStatement("SELECT * FROM Car WHERE id=?");
+        carQuery.setInt(1, id);
+        ResultSet carQresults = carQuery.executeQuery();
+        if (carQresults.next()) {
+            return new Car(carQresults.getString("name"), carQresults.getInt("fuel_capacity"));
+        } else {
+            return null;
+        }
+
+    }
+    
+    public ArrayList<Refueling> getRefuelings() throws SQLException {
+        ArrayList<Refueling> refuelings = new ArrayList<>();
+        PreparedStatement refQuery = db.prepareStatement("SELECT * FROM Refueling");
+        ResultSet refResults = refQuery.executeQuery();
+        while (refResults.next()) {
+            refuelings.add(new Refueling(getCar(refResults.getInt("car_id")), 
+                    refResults.getInt("odometer"), 
+                    refResults.getDouble("volume"), 
+                    refResults.getInt("day"),
+                    refResults.getInt("month"),
+                    refResults.getInt("year")));
+        }
+        return refuelings;
+    }
+    
+    public ArrayList<Refueling> getRefuelings(Car car) throws SQLException {
+        ArrayList<Refueling> refuelings = new ArrayList<>();
+        PreparedStatement refQuery = db.prepareStatement("SELECT * FROM Refueling WHERE car_id=?");
+        refQuery.setInt(1, getCarId(car));
+        ResultSet refResults = refQuery.executeQuery();
+        while (refResults.next()) {
+            Refueling r = new Refueling(car, refResults.getInt("odometer"),
+            refResults.getDouble("volume"), refResults.getInt("day"),
+            refResults.getInt("month"), refResults.getInt("year"));
+            System.out.println(r);
+            refuelings.add(r);
+        }
+        
+        return refuelings;
     }
     
     public void clear() throws SQLException {
