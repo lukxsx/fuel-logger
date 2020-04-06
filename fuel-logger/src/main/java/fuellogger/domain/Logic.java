@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Logic {
     private Database db;
     public ArrayList<Car> cars;
-    public ArrayList<Refuel> refuels;
+    public ArrayList<Refueling> refuels;
     
     public Logic() throws SQLException {
         this.db = new Database("database.db");

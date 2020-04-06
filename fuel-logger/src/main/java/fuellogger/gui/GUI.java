@@ -131,7 +131,7 @@ public class GUI extends Application {
                 
         VBox refuelLayout = new VBox();
         
-        Label rfCarLabel = new Label("a");
+        Label rfCarLabel = new Label();
         rfCarLabel.setText(currentCar.getName());
         refuelLayout.getChildren().add(rfCarLabel);
         
