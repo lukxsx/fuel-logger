@@ -5,4 +5,4 @@
 | 31.3. | 3    | adding a car and the database works, messing with maven and pom |
 | 6.4.  | 3    | adding refuelings to the database and gui for refuelings listing |
 | 7.4.  | 2    | added checkstyle and more tests, class diagram |
-| sum   | 11   |  |
+| total | 11   |  |
