@@ -16,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -33,6 +34,7 @@ public class GUI extends Application {
     private Logic l;
     Scene refuelingsScene;
     Scene carSelectScene;
+    Scene graphScene;
     Car currentCar;
 
     @Override
@@ -45,6 +47,20 @@ public class GUI extends Application {
         primaryStage.setWidth(800);
         primaryStage.setTitle("Fuel logger");
 
+        
+        carSelectScene = carSScene(primaryStage);
+        refuelingsScene = null;
+        graphScene = null;
+
+        primaryStage.setScene(carSelectScene);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+    public Scene carSScene(Stage primaryStage) {
         /*
         *
         *   Car selection view
@@ -85,10 +101,11 @@ public class GUI extends Application {
                 currentCar = selectedCar.get(0);
                 System.out.println(currentCar);
                 try {
-                    refuelingsScene = refuelScene();
+                    refuelingsScene = refuelScene(primaryStage);
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
                 primaryStage.setScene(refuelingsScene);
             }
         });
@@ -120,25 +137,17 @@ public class GUI extends Application {
         carSelectLayout.getChildren().add(csSelectButton);
         carSelectLayout.getChildren().add(csAddInfo);
         carSelectLayout.getChildren().add(csAddLayout);
-
-        carSelectScene = new Scene(carSelectLayout);
-
-        refuelingsScene = null;
-
-        primaryStage.setScene(carSelectScene);
-        primaryStage.show();
+        
+        Scene css = new Scene(carSelectLayout);
+        return css;
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    public Scene refuelScene() throws SQLException {
+    public Scene refuelScene(Stage primaryStage) throws SQLException {
         /*
         *
         *   Refuelings view
         *
-         */
+        */
 
         VBox refuelLayout = new VBox();
 
@@ -189,11 +198,14 @@ public class GUI extends Application {
         rfAddLayout.setSpacing(10);
         rfAddLayout.getChildren().addAll(odField, volField, dateField, rfAddButton);
         
+        Button rfGraphsButton = new Button("Graphs");
+        
         refuelLayout.getChildren().add(refuelTopLayout);
         refuelLayout.getChildren().add(refills);
         refuelLayout.getChildren().add(rfAddLayout);
+        refuelLayout.getChildren().add(rfGraphsButton);
         refuelLayout.setSpacing(10);
-        
+
         rfAddButton.setOnAction((ActionEvent e) -> {
             int odo = Integer.valueOf(odField.getText());
             double vol = Double.valueOf(volField.getText());
@@ -209,8 +221,31 @@ public class GUI extends Application {
             volField.clear();
             dateField.getEditor().clear();
         });
+        
+        rfGraphsButton.setOnAction((ActionEvent e) -> {
+            graphScene = graphsScene();
+            primaryStage.setScene(graphScene);
+        });
+       
+        
         Scene rfs = new Scene(refuelLayout);
         return rfs;
+    }
+
+    public Scene graphsScene() {
+        /*
+        *
+        *   Graphs view
+        *
+        */
+        
+        ChoiceBox cb = new ChoiceBox();
+        
+        VBox grLayout = new VBox();
+        grLayout.getChildren().add(cb);
+        
+        Scene grs = new Scene(grLayout);
+        return grs;
     }
 
 }
