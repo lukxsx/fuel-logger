@@ -1,65 +1,28 @@
 package fuellogger.domain;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Refueling implements Comparable<Refueling> {
     public Car car;
     public int odometer;
     public double volume;
-    public int day;
-    public int month;
-    public int year;
+    public LocalDate date;
 
-    public Refueling(Car car, int odometer, double volume, int day, int month, int year) {
+    public Refueling(Car car, int odometer, double volume, LocalDate date) {
         this.car = car;
         this.odometer = odometer;
         this.volume = volume;
-        this.day = day;
-        this.month = month;
-        this.year = year;
+        this.date = date;
     }
 
     @Override
     public String toString() {
-        return car + " " + odometer + " " + volume + " " + day + " " + month +
-                " " + year;
+        return car + " " + odometer + " " + volume + " " + date;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.car);
-        hash = 37 * hash + this.odometer;
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.volume) ^ (Double.doubleToLongBits(this.volume) >>> 32));
-        hash = 37 * hash + this.day;
-        hash = 37 * hash + this.month;
-        hash = 37 * hash + this.year;
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        final Refueling other = (Refueling) obj;
-        if (this.odometer != other.odometer) {
-            return false;
-        }
-        if (this.day != other.day) {
-            return false;
-        }
-        if (this.month != other.month) {
-            return false;
-        }
-        if (this.year != other.year) {
-            return false;
-        }
-        if (!Objects.equals(this.car, other.car)) {
-            return false;
-        }
-        return true;
-    }
+
 
     public int getOdometer() {
         return odometer;
@@ -69,17 +32,10 @@ public class Refueling implements Comparable<Refueling> {
         return car;
     }
 
-    public int getDay() {
-        return day;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public int getMonth() {
-        return month;
-    }
-
-    public int getYear() {
-        return year;
-    }
 
     public double getVolume() {
         return volume;

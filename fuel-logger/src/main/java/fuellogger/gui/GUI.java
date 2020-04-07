@@ -3,18 +3,20 @@ package fuellogger.gui;
 import fuellogger.domain.Car;
 import fuellogger.domain.Logic;
 import fuellogger.domain.Refueling;
+
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -39,6 +41,8 @@ public class GUI extends Application {
         l = new Logic("database.db");
         this.currentCar = null;
         // window settings
+        primaryStage.setHeight(1024);
+        primaryStage.setWidth(800);
         primaryStage.setTitle("Fuel logger");
 
         /*
@@ -171,8 +175,29 @@ public class GUI extends Application {
         }
         refills.setItems(refuelingData);
 
+        // refueling adding layout
+        HBox rfAddLayout = new HBox();
+        TextField odField = new TextField();
+        odField.setPromptText("Odometer");
+        TextField volField = new TextField();
+        volField.setPromptText("Volume");
+        DatePicker dateField = new DatePicker();
+        dateField.setPromptText("Date");
+        Button rfAddButton = new Button("Add");
+        rfAddLayout.setSpacing(10);
+        rfAddLayout.getChildren().addAll(odField, volField, dateField, rfAddButton);
+        
         refuelLayout.getChildren().add(refuelTopLayout);
         refuelLayout.getChildren().add(refills);
+        refuelLayout.getChildren().add(rfAddLayout);
+        refuelLayout.setSpacing(10);
+        
+        rfAddButton.setOnAction((ActionEvent e) -> {
+            int odo = Integer.valueOf(odField.getText());
+            double vol = Double.valueOf(volField.getText());
+            LocalDate date = dateField.getValue();
+            
+        });
         Scene rfs = new Scene(refuelLayout);
         return rfs;
     }

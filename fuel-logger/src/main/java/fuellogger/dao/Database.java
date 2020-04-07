@@ -4,6 +4,8 @@ import fuellogger.domain.Car;
 import fuellogger.domain.Refueling;
 import java.io.File;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 
 public class Database {
@@ -65,9 +67,9 @@ public class Database {
             s.setInt(1, getCarId(car));
             s.setInt(2, refueling.odometer);
             s.setDouble(3, refueling.volume);
-            s.setInt(4, refueling.day);
-            s.setInt(5, refueling.month);
-            s.setInt(6, refueling.year);
+            s.setInt(4, refueling.date.getDayOfMonth());
+            s.setInt(5, refueling.date.getMonthValue());
+            s.setInt(6, refueling.date.getYear());
             s.executeUpdate();
         } catch (Exception e) {
             return false;
@@ -104,12 +106,11 @@ public class Database {
         PreparedStatement refQuery = db.prepareStatement("SELECT * FROM Refueling");
         ResultSet refResults = refQuery.executeQuery();
         while (refResults.next()) {
+            LocalDate d = LocalDate.of(refResults.getInt("year"),
+                    refResults.getInt("month"), refResults.getInt("day"));
             refuelings.add(new Refueling(getCar(refResults.getInt("car_id")),
                     refResults.getInt("odometer"),
-                    refResults.getDouble("volume"),
-                    refResults.getInt("day"),
-                    refResults.getInt("month"),
-                    refResults.getInt("year")));
+                    refResults.getDouble("volume"), d));
         }
         return refuelings;
     }
@@ -120,7 +121,9 @@ public class Database {
         refQuery.setInt(1, getCarId(car));
         ResultSet refResults = refQuery.executeQuery();
         while (refResults.next()) {
-            Refueling r = new Refueling(car, refResults.getInt("odometer"), refResults.getDouble("volume"), refResults.getInt("day"), refResults.getInt("month"), refResults.getInt("year"));
+            LocalDate d = LocalDate.of(refResults.getInt("year"),
+                    refResults.getInt("month"), refResults.getInt("day"));
+            Refueling r = new Refueling(car, refResults.getInt("odometer"), refResults.getDouble("volume"), d);
             refuelings.add(r);
         }
 
