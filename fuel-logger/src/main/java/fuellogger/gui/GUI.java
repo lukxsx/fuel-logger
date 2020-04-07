@@ -36,7 +36,7 @@ public class GUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        l = new Logic();
+        l = new Logic("database.db");
         this.currentCar = null;
         // window settings
         primaryStage.setTitle("Fuel logger");

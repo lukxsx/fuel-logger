@@ -12,15 +12,17 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-        
+        /*
         // just some test code 
-        Logic l = new Logic();
+        Logic l = new Logic("asd.db");
         Car c = new Car("Volvo", 80);
         l.addCar(c);
-        Refueling r1 = new Refueling(c, 373773, 70.13, 28, 2, 2020);
-        Refueling r2 = new Refueling(c, 374545, 71.61, 13, 3, 2020);
+        Refueling r1 = new Refueling(c, 373020, 69.92, 16, 2, 2020);
+        Refueling r2 = new Refueling(c, 373773, 70.13, 28, 2, 2020);
+        Refueling r3 = new Refueling(c, 374545, 71.61, 13, 3, 2020);
         l.addRefueling(c, r1);
         l.addRefueling(c, r2);
+        l.addRefueling(c, r3);
         System.out.println(l.avgConsumption(c));
         
         

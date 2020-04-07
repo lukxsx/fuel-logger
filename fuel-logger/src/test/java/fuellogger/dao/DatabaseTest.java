@@ -1,6 +1,7 @@
 package fuellogger.dao;
 
 import fuellogger.domain.Car;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.After;
@@ -16,7 +17,13 @@ public class DatabaseTest {
 
     @Before
     public void setUp() throws SQLException {
-        d = new Database("test.db");
+        d = new Database("dbtest.db");
+    }
+    
+    @After
+    public void tearDown() {
+        File dbfile = new File("dbtest.db");
+        dbfile.delete();
     }
 
     @Test

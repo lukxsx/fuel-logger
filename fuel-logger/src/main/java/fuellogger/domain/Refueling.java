@@ -42,17 +42,8 @@ public class Refueling implements Comparable<Refueling> {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
         final Refueling other = (Refueling) obj;
         if (this.odometer != other.odometer) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.volume) != Double.doubleToLongBits(other.volume)) {
             return false;
         }
         if (this.day != other.day) {

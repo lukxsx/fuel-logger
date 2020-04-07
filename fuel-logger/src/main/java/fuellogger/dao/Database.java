@@ -9,9 +9,9 @@ import java.util.ArrayList;
 public class Database {
 
     Connection db;
-    
+
     public Database(String filename) throws SQLException {
-        
+
         // check if database file already exists
         File check = new File(filename);
 
@@ -53,7 +53,7 @@ public class Database {
         }
         return cars;
     }
-    
+
     public boolean addRefill(Car car, Refueling refueling) throws SQLException {
         int carid = getCarId(car);
         if (carid == 0) {
@@ -74,7 +74,7 @@ public class Database {
         }
         return true;
     }
-    
+
     public int getCarId(Car car) throws SQLException {
         PreparedStatement carIdQuery = db.prepareStatement("SELECT id FROM Car WHERE name=?");
         carIdQuery.setString(1, car.getName());
@@ -84,9 +84,9 @@ public class Database {
         } else {
             return 0;
         }
-        
+
     }
-    
+
     public Car getCar(int id) throws SQLException {
         PreparedStatement carQuery = db.prepareStatement("SELECT * FROM Car WHERE id=?");
         carQuery.setInt(1, id);
@@ -98,44 +98,41 @@ public class Database {
         }
 
     }
-    
+
     public ArrayList<Refueling> getRefuelings() throws SQLException {
         ArrayList<Refueling> refuelings = new ArrayList<>();
         PreparedStatement refQuery = db.prepareStatement("SELECT * FROM Refueling");
         ResultSet refResults = refQuery.executeQuery();
         while (refResults.next()) {
-            refuelings.add(new Refueling(getCar(refResults.getInt("car_id")), 
-                    refResults.getInt("odometer"), 
-                    refResults.getDouble("volume"), 
+            refuelings.add(new Refueling(getCar(refResults.getInt("car_id")),
+                    refResults.getInt("odometer"),
+                    refResults.getDouble("volume"),
                     refResults.getInt("day"),
                     refResults.getInt("month"),
                     refResults.getInt("year")));
         }
         return refuelings;
     }
-    
+
     public ArrayList<Refueling> getRefuelings(Car car) throws SQLException {
         ArrayList<Refueling> refuelings = new ArrayList<>();
         PreparedStatement refQuery = db.prepareStatement("SELECT * FROM Refueling WHERE car_id=?");
         refQuery.setInt(1, getCarId(car));
         ResultSet refResults = refQuery.executeQuery();
         while (refResults.next()) {
-            Refueling r = new Refueling(car, refResults.getInt("odometer"),
-            refResults.getDouble("volume"), refResults.getInt("day"),
-            refResults.getInt("month"), refResults.getInt("year"));
+            Refueling r = new Refueling(car, refResults.getInt("odometer"), refResults.getDouble("volume"), refResults.getInt("day"), refResults.getInt("month"), refResults.getInt("year"));
             refuelings.add(r);
         }
-        
+
         return refuelings;
     }
-    
+
     public void clear() throws SQLException {
         // used for tests
         Statement s = db.createStatement();
         s.execute("DELETE FROM Car");
         s.execute("DELETE FROM Refueling");
-        
+
     }
-    
 
 }
