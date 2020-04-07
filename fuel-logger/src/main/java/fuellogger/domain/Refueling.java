@@ -1,9 +1,11 @@
 package fuellogger.domain;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Refueling implements Comparable<Refueling> {
+
     public Car car;
     public int odometer;
     public double volume;
@@ -21,9 +23,6 @@ public class Refueling implements Comparable<Refueling> {
         return car + " " + odometer + " " + volume + " " + date;
     }
 
-
-
-
     public int getOdometer() {
         return odometer;
     }
@@ -36,12 +35,9 @@ public class Refueling implements Comparable<Refueling> {
         return date;
     }
 
-
     public double getVolume() {
         return volume;
     }
-    
-    
 
     @Override
     public int compareTo(Refueling t) {
@@ -53,6 +49,5 @@ public class Refueling implements Comparable<Refueling> {
         }
         return 0;
     }
-    
-    
+
 }

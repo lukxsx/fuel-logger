@@ -162,8 +162,10 @@ public class GUI extends Application {
         rfOdometerColumn.setCellValueFactory(new PropertyValueFactory<>("odometer"));
         TableColumn<Double, Refueling> rfVolumeColumn = new TableColumn("Volume");
         rfVolumeColumn.setCellValueFactory(new PropertyValueFactory<>("volume"));
+        TableColumn<LocalDate, Refueling> rfDateColumn = new TableColumn("Date");
+        rfDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-        refills.getColumns().addAll(rfOdometerColumn, rfVolumeColumn);
+        refills.getColumns().addAll(rfOdometerColumn, rfVolumeColumn, rfDateColumn);
 
         // date for table
         ObservableList<Refueling> refuelingData = FXCollections.observableArrayList();
@@ -196,7 +198,16 @@ public class GUI extends Application {
             int odo = Integer.valueOf(odField.getText());
             double vol = Double.valueOf(volField.getText());
             LocalDate date = dateField.getValue();
-            
+            Refueling r = new Refueling(currentCar, odo, vol, date);
+            try {
+                l.addRefueling(currentCar, r);
+            } catch (SQLException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            refuelingData.add(r);
+            odField.clear();
+            volField.clear();
+            dateField.getEditor().clear();
         });
         Scene rfs = new Scene(refuelLayout);
         return rfs;
