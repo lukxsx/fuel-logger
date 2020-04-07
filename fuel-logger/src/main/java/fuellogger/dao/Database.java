@@ -133,7 +133,7 @@ public class Database {
         // used for tests
         Statement s = db.createStatement();
         s.execute("DELETE FROM Car");
-        s.execute("DELETE FROM Refill");
+        s.execute("DELETE FROM Refueling");
         
     }
     
