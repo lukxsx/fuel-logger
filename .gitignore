@@ -5,3 +5,4 @@
 /fuel-logger/target/
 *.db
 /fuel-logger/nbproject/
+/fuel-logger/nbactions.xml
