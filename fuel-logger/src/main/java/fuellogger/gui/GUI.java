@@ -220,6 +220,14 @@ public class GUI extends Application {
             odField.clear();
             volField.clear();
             dateField.getEditor().clear();
+            rfAvgConsumption.setText("Average consumption: " + df.format(avg) + " l/100km");
+            try {
+                this.refuelingsScene = refuelScene(primaryStage);
+                primaryStage.setScene(refuelingsScene);
+            } catch (SQLException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         });
         
         rfGraphsButton.setOnAction((ActionEvent e) -> {
