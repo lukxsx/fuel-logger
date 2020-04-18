@@ -179,8 +179,8 @@ public class GUI extends Application {
         // date for table
         ObservableList<Refueling> refuelingData = FXCollections.observableArrayList();
 
-        // get cars from the database
-        ArrayList<Refueling> ref = l.getRefuelings(currentCar);
+        // get refuelings from the database
+        ArrayList<Refueling> ref = l.refuelings.get(currentCar);
         for (Refueling r : ref) {
             refuelingData.add(r);
         }

@@ -4,21 +4,31 @@ import fuellogger.dao.Database;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class Logic {
 
     private Database db;
     public ArrayList<Car> cars;
+    public HashMap<Car, ArrayList<Refueling>> refuelings;
 
     public Logic(String database) throws SQLException {
         this.db = new Database(database);
         this.cars = db.getCars();
+        this.refuelings = new HashMap<>();
+        for (Car c: this.cars) {
+            this.refuelings.put(c, getRefuelingsFromDB(c));
+        }
+        
     }
 
     public void addCar(Car car) {
         if (!this.cars.contains(car)) {
             this.cars.add(car);
             this.db.addCar(car);
+            if (!this.refuelings.containsKey(car)) {
+                this.refuelings.put(car, new ArrayList<>());
+            }
         }
     }
     
@@ -28,6 +38,7 @@ public class Logic {
     }
 
     public void addRefueling(Car car, Refueling refueling) throws SQLException {
+        this.refuelings.get(car).add(refueling);
         this.db.addRefill(car, refueling);
         /*if (!this.refuelings.contains(refueling)) {
             this.refuelings.add(refueling);
@@ -36,12 +47,12 @@ public class Logic {
          */
     }
 
-    public ArrayList<Refueling> getRefuelings(Car car) throws SQLException {
+    public ArrayList<Refueling> getRefuelingsFromDB(Car car) throws SQLException {
         return db.getRefuelings(car);
     }
 
     public double avgConsumption(Car car) throws SQLException {
-        ArrayList<Refueling> refuelings = db.getRefuelings(car);
+        ArrayList<Refueling> refuelings = this.refuelings.get(car);
         if (refuelings.size() == 0 || refuelings.size() == 1) {
             return 0;
         }
