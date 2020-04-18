@@ -15,6 +15,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -47,7 +50,6 @@ public class GUI extends Application {
         primaryStage.setWidth(800);
         primaryStage.setTitle("Fuel logger");
 
-        
         carSelectScene = carSScene(primaryStage);
         refuelingsScene = null;
         graphScene = null;
@@ -59,7 +61,7 @@ public class GUI extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
     public Scene carSScene(Stage primaryStage) {
         /*
         *
@@ -105,7 +107,7 @@ public class GUI extends Application {
                 } catch (SQLException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
                 primaryStage.setScene(refuelingsScene);
             }
         });
@@ -137,7 +139,7 @@ public class GUI extends Application {
         carSelectLayout.getChildren().add(csSelectButton);
         carSelectLayout.getChildren().add(csAddInfo);
         carSelectLayout.getChildren().add(csAddLayout);
-        
+
         Scene css = new Scene(carSelectLayout);
         return css;
     }
@@ -147,7 +149,7 @@ public class GUI extends Application {
         *
         *   Refuelings view
         *
-        */
+         */
 
         VBox refuelLayout = new VBox();
 
@@ -197,9 +199,9 @@ public class GUI extends Application {
         Button rfAddButton = new Button("Add");
         rfAddLayout.setSpacing(10);
         rfAddLayout.getChildren().addAll(odField, volField, dateField, rfAddButton);
-        
+
         Button rfGraphsButton = new Button("Graphs");
-        
+
         refuelLayout.getChildren().add(refuelTopLayout);
         refuelLayout.getChildren().add(refills);
         refuelLayout.getChildren().add(rfAddLayout);
@@ -227,15 +229,14 @@ public class GUI extends Application {
             } catch (SQLException ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         });
-        
+
         rfGraphsButton.setOnAction((ActionEvent e) -> {
             graphScene = graphsScene();
             primaryStage.setScene(graphScene);
         });
-       
-        
+
         Scene rfs = new Scene(refuelLayout);
         return rfs;
     }
@@ -245,12 +246,31 @@ public class GUI extends Application {
         *
         *   Graphs view
         *
-        */
-        
+         */
+
         ChoiceBox cb = new ChoiceBox();
-        
+
         VBox grLayout = new VBox();
         grLayout.getChildren().add(cb);
+
+        NumberAxis consXAxis = new NumberAxis();
+        NumberAxis consYAxis = new NumberAxis();
+        consXAxis.setLabel("Month");
+        consYAxis.setLabel("l / 100 km");
+        
+        LineChart<Number, Number> consChart = new LineChart<>(consXAxis, consYAxis);
+        consChart.setTitle("Fuel consumptions");
+        
+        XYChart.Series consData = new XYChart.Series();
+        
+        ArrayList<Refueling> refData = l.getRefuelings(currentCar);
+        for (int i = 0; i < refData.size() - 1; i++) {
+            consData.getData().add(new XYChart.Data(i + 1, l.getConsumption(currentCar, refData.get(i))));
+        }
+        
+        consChart.getData().add(consData);
+        
+        grLayout.getChildren().add(consChart);
         
         Scene grs = new Scene(grLayout);
         return grs;

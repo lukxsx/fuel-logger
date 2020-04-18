@@ -16,10 +16,10 @@ public class Logic {
         this.db = new Database(database);
         this.cars = db.getCars();
         this.refuelings = new HashMap<>();
-        for (Car c: this.cars) {
+        for (Car c : this.cars) {
             this.refuelings.put(c, getRefuelingsFromDB(c));
         }
-        
+
     }
 
     public void addCar(Car car) {
@@ -31,7 +31,7 @@ public class Logic {
             }
         }
     }
-    
+
     public void clearDB() throws SQLException {
         // used for tests
         db.clear();
@@ -51,6 +51,10 @@ public class Logic {
         return db.getRefuelings(car);
     }
 
+    public ArrayList<Refueling> getRefuelings(Car car) {
+        return this.refuelings.get(car);
+    }
+
     public double avgConsumption(Car car) throws SQLException {
         ArrayList<Refueling> refuelings = this.refuelings.get(car);
         if (refuelings.size() == 0 || refuelings.size() == 1) {
@@ -62,11 +66,50 @@ public class Logic {
         }
 
         Collections.sort(refuelings);
-        for (int i = 0; i < refuelings.size(); i++) {
-        }
 
         int kms = refuelings.get(refuelings.size() - 1).odometer - refuelings.get(0).odometer;
 
         return litres / kms * 100;
+    }
+
+    public double getConsumption(Car car, Refueling refueling) {
+        ArrayList<Refueling> refuelings = this.refuelings.get(car);
+        Collections.sort(refuelings);
+        int index = refuelings.indexOf(refueling);
+        if (index == refuelings.size() - 1) {
+            return 0;
+            // can't count consumption from the latest refueling
+        }
+
+        Refueling next = refuelings.get(index + 1);
+
+        int kms = next.odometer - refueling.odometer;
+        return next.volume / kms * 100;
+    }
+
+    public double monthAvg(Car car, int month) {
+        ArrayList<Refueling> refuelings = this.refuelings.get(car);
+        ArrayList<Refueling> valid = new ArrayList<>();
+        for (Refueling r : refuelings) {
+            if (r.getDate().getMonthValue() == month) {
+                valid.add(r);
+            }
+        }
+
+        double sum = 0;
+        int counter = 0;
+        for (Refueling r : valid) {
+            double cons = getConsumption(car, r);
+            if (cons != 0) {
+                sum = sum + cons;
+                counter++;
+            }
+        }
+        
+        if (sum == 0) {
+            return 0;
+        }
+
+        return (double) sum / (double) counter;
     }
 }
