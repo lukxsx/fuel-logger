@@ -50,4 +50,20 @@ public class Refueling implements Comparable<Refueling> {
         return 0;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        final Refueling other = (Refueling) obj;
+        if (this.odometer != other.odometer) {
+            return false;
+        }
+        if (!Objects.equals(this.car, other.car)) {
+            return false;
+        }
+        return true;
+    }
+
 }

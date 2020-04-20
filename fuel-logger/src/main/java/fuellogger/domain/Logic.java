@@ -88,8 +88,9 @@ public class Logic {
     }
 
     public double monthAvg(Car car, int month) {
-        ArrayList<Refueling> refuelings = this.refuelings.get(car);
+        ArrayList<Refueling> refuelings = getRefuelings(car);
         ArrayList<Refueling> valid = new ArrayList<>();
+        
         for (Refueling r : refuelings) {
             if (r.getDate().getMonthValue() == month) {
                 valid.add(r);
