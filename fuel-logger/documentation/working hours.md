@@ -6,4 +6,5 @@
 | 6.4.  | 3    | adding refuelings to the database and gui for refuelings listing |
 | 7.4.  | 3    | added checkstyle and more tests, refuelings can be added from gui, class diagram |
 | 18.4. | 2    | added methods to count consumptions + consumption graph |
-| total | 12   |  |
+| 20.4. | 2    | added more tests + sequence diagram off adding cars |
+| total | 16   |  |
