@@ -13,9 +13,9 @@ need for them.
 - [x] Graphical user interface
 - [x] Adding a car (name, fuel tank capacity etc.)
 - [x] Selecting a car to use
-- [ ] Logging a refueling (kilometrage, volume in litres, cost per litre (in euros))
+- [x] Logging a refueling (kilometrage, volume in litres)
 - [x] Viewing average fuel consumption
-- [ ] Viewing graphs of fuel consumption
+- [x] Viewing graphs of fuel consumption
 - [ ] Viewing graphs of cost
 - [ ] Viewing graphs of driven kilometres
 - [ ] Backup and restore of the data to a file (to use the software easily on

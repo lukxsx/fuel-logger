@@ -15,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
+import javafx.scene.chart.Chart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -99,7 +100,6 @@ public class GUI extends Application {
         csSelectButton.setOnAction((ActionEvent e) -> {
             ObservableList<Car> selectedCar = CSselectionModel.getSelectedItems();
             if (!(selectedCar.size() == 0)) {
-                System.out.println(selectedCar.get(0));
                 currentCar = selectedCar.get(0);
                 System.out.println(currentCar);
                 try {
@@ -165,6 +165,9 @@ public class GUI extends Application {
         rfAvgConsumption.setText("Average consumption: " + df.format(avg) + " l/100km");
         refuelTopLayout.getChildren().add(rfCarLabel);
         refuelTopLayout.getChildren().add(rfAvgConsumption);
+        
+        Button back = new Button("Car selection");
+        refuelTopLayout.getChildren().add(back);
 
         TableView refills = new TableView();
         refills.setEditable(true);
@@ -233,15 +236,20 @@ public class GUI extends Application {
         });
 
         rfGraphsButton.setOnAction((ActionEvent e) -> {
-            graphScene = graphsScene();
+            graphScene = graphsScene(primaryStage);
             primaryStage.setScene(graphScene);
+        });
+        
+        back.setOnAction((ActionEvent e) -> {
+            currentCar = null;
+            primaryStage.setScene(carSelectScene);
         });
 
         Scene rfs = new Scene(refuelLayout);
         return rfs;
     }
 
-    public Scene graphsScene() {
+    public Scene graphsScene(Stage primaryStage) {
         /*
         *
         *   Graphs view
@@ -249,31 +257,42 @@ public class GUI extends Application {
          */
 
         ChoiceBox cb = new ChoiceBox();
+        Button back = new Button("Back");
 
         VBox grLayout = new VBox();
-        grLayout.getChildren().add(cb);
+        grLayout.getChildren().addAll(cb, back);
 
+        back.setOnAction((ActionEvent e) -> {
+            primaryStage.setScene(refuelingsScene);
+        });
+
+        Chart c = monthChart();
+        grLayout.getChildren().add(c);
+
+        Scene grs = new Scene(grLayout);
+        return grs;
+    }
+
+    private Chart monthChart() {
         NumberAxis consXAxis = new NumberAxis();
         NumberAxis consYAxis = new NumberAxis();
-        consXAxis.setLabel("Month");
+        consXAxis.setLabel("Refueling");
         consYAxis.setLabel("l / 100 km");
-        
+
         LineChart<Number, Number> consChart = new LineChart<>(consXAxis, consYAxis);
-        consChart.setTitle("Fuel consumptions");
-        
+        consChart.setTitle("Fuel consumption");
+
         XYChart.Series consData = new XYChart.Series();
-        
+
         ArrayList<Refueling> refData = l.getRefuelings(currentCar);
         for (int i = 0; i < refData.size() - 1; i++) {
             consData.getData().add(new XYChart.Data(i + 1, l.getConsumption(currentCar, refData.get(i))));
         }
-        
+
         consChart.getData().add(consData);
-        
-        grLayout.getChildren().add(consChart);
-        
-        Scene grs = new Scene(grLayout);
-        return grs;
+        consChart.setLegendVisible(false);
+
+        return consChart;
     }
 
 }
