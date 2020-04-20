@@ -2,6 +2,7 @@
 
 ## Car adding sequence diagram
 ![car adding sequence](caraddseq.png)
+
 User inserts car's details in fields and clicks car adding button. 
 A new car object is created and addCar() method in Logic class is called.
 Logic object adds car in it's local arraylist of cars and calls Database objects addCar() method.
