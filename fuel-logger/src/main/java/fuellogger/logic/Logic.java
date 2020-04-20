@@ -42,11 +42,6 @@ public class Logic {
     public void addRefueling(Car car, Refueling refueling) throws SQLException {
         this.refuelings.get(car).add(refueling);
         this.db.addRefill(car, refueling);
-        /*if (!this.refuelings.contains(refueling)) {
-            this.refuelings.add(refueling);
-            
-        }
-         */
     }
 
     public ArrayList<Refueling> getRefuelingsFromDB(Car car) throws SQLException {
@@ -81,6 +76,7 @@ public class Logic {
         if (index == refuelings.size() - 1) {
             return 0;
             // can't count consumption from the latest refueling
+            // because we don't know about the next refueling yet
         }
 
         Refueling next = refuelings.get(index + 1);
@@ -112,7 +108,7 @@ public class Logic {
         if (sum == 0) {
             return 0;
         }
-
+        
         return (double) sum / (double) counter;
     }
 }
