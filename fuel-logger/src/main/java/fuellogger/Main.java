@@ -2,7 +2,7 @@ package fuellogger;
 
 import fuellogger.dao.Database;
 import fuellogger.domain.Car;
-import fuellogger.domain.Logic;
+import fuellogger.logic.Logic;
 import fuellogger.domain.Refueling;
 import fuellogger.gui.GUI;
 import java.sql.SQLException;

@@ -1,5 +1,6 @@
 package fuellogger.domain;
 
+import fuellogger.logic.Logic;
 import fuellogger.domain.*;
 import fuellogger.dao.*;
 

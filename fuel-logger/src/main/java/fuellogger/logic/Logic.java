@@ -1,6 +1,8 @@
-package fuellogger.domain;
+package fuellogger.logic;
 
 import fuellogger.dao.Database;
+import fuellogger.domain.Car;
+import fuellogger.domain.Refueling;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;

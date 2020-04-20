@@ -1,7 +1,7 @@
 package fuellogger.gui;
 
 import fuellogger.domain.Car;
-import fuellogger.domain.Logic;
+import fuellogger.logic.Logic;
 import fuellogger.domain.Refueling;
 
 import java.sql.SQLException;
