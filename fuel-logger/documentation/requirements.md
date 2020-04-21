@@ -29,6 +29,8 @@ need for them.
 - [ ] Exporting data as CSV or some other common file type
 
 ## Limitations
+* Only works when tank is filled full, no partial refuelings
+* Monthly average works only when there are min. 2 refuelings per month
 * Must work on all common platforms supported by Java and JavaFX
 (Linux, macOS and Windows)
 * Only supports SI units and euros
