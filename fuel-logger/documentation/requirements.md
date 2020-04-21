@@ -30,7 +30,7 @@ need for them.
 
 ## Limitations
 * Only works when tank is filled full, no partial refuelings
-* Monthly average works only when there are min. 2 refuelings per month
+* Min. 2 refuelings needed to count fuel consumptions
 * Must work on all common platforms supported by Java and JavaFX
 (Linux, macOS and Windows)
 * Only supports SI units and euros

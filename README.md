@@ -27,6 +27,11 @@ Running
 mvn compile exec:java -Dexec.mainClass=fuellogger.Main
 ```
 
+Package jar
+```
+mvn package
+```
+
 Checkstyle
 ```
 mvn jxr:jxr checkstyle:checkstyle
