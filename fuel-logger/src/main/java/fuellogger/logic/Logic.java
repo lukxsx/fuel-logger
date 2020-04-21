@@ -85,12 +85,12 @@ public class Logic {
         return next.volume / kms * 100;
     }
 
-    public double monthAvg(Car car, int month) {
+    public double monthAvg(Car car, int month, int year) {
         ArrayList<Refueling> refuelings = getRefuelings(car);
         ArrayList<Refueling> valid = new ArrayList<>();
         
         for (Refueling r : refuelings) {
-            if (r.getDate().getMonthValue() == month) {
+            if (r.getDate().getMonthValue() == month && r.getDate().getYear() == year) {
                 valid.add(r);
             }
         }

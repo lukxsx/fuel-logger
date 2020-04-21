@@ -5,6 +5,7 @@ import fuellogger.logic.Logic;
 import fuellogger.domain.Refueling;
 
 import java.sql.SQLException;
+import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.Chart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -30,6 +33,7 @@ import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -40,6 +44,7 @@ public class GUI extends Application {
     Scene carSelectScene;
     Scene graphScene;
     Car currentCar;
+    Chart chart;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -165,7 +170,7 @@ public class GUI extends Application {
         rfAvgConsumption.setText("Average consumption: " + df.format(avg) + " l/100km");
         refuelTopLayout.getChildren().add(rfCarLabel);
         refuelTopLayout.getChildren().add(rfAvgConsumption);
-        
+
         Button back = new Button("Car selection");
         refuelTopLayout.getChildren().add(back);
 
@@ -239,7 +244,7 @@ public class GUI extends Application {
             graphScene = graphsScene(primaryStage);
             primaryStage.setScene(graphScene);
         });
-        
+
         back.setOnAction((ActionEvent e) -> {
             currentCar = null;
             primaryStage.setScene(carSelectScene);
@@ -256,43 +261,71 @@ public class GUI extends Application {
         *
          */
 
+        HBox graphsTop = new HBox();
+        graphsTop.setSpacing(15);
+
         ChoiceBox cb = new ChoiceBox();
+        Label cbLabel = new Label("Select graph:");
+        cb.getItems().add("Consumption by month");
         Button back = new Button("Back");
 
+        LocalDate today = LocalDate.now();
+        ChoiceBox yearselect = new ChoiceBox();
+        for (int i = 0; i < 10; i++) {
+            yearselect.getItems().add(today.getYear() - i);
+        }
+        yearselect.setValue(today.getYear());
+        Button yearSelectButton = new Button("Select");
+
         VBox grLayout = new VBox();
-        grLayout.getChildren().addAll(cb, back);
+        graphsTop.getChildren().addAll(back, cbLabel, cb, yearselect, yearSelectButton);
 
         back.setOnAction((ActionEvent e) -> {
             primaryStage.setScene(refuelingsScene);
         });
 
-        Chart c = monthChart();
-        grLayout.getChildren().add(c);
+        grLayout.getChildren().add(graphsTop);
+        
+        
+        VBox graphPane = new VBox();
+
+        chart = monthChart((int) yearselect.getValue());
+        graphPane.getChildren().add(chart);
+        grLayout.getChildren().add(graphPane);
+        
+        yearSelectButton.setOnAction((ActionEvent e) -> {
+            chart = monthChart((int) yearselect.getValue());
+            graphPane.getChildren().clear();
+            graphPane.getChildren().add(chart);
+        });
 
         Scene grs = new Scene(grLayout);
         return grs;
     }
 
-    private Chart monthChart() {
-        NumberAxis consXAxis = new NumberAxis();
-        NumberAxis consYAxis = new NumberAxis();
-        consXAxis.setLabel("Refueling");
-        consYAxis.setLabel("l / 100 km");
+    private Chart monthChart(int year) {
 
-        LineChart<Number, Number> consChart = new LineChart<>(consXAxis, consYAxis);
+        CategoryAxis consXAxis = new CategoryAxis();
+        NumberAxis consYAxis = new NumberAxis();
+        consXAxis.setLabel("Month");
+        consYAxis.setLabel("l/100 km");
+
+        BarChart<String, Number> consChart = new BarChart<>(consXAxis, consYAxis);
         consChart.setTitle("Fuel consumption");
 
         XYChart.Series consData = new XYChart.Series();
 
-        ArrayList<Refueling> refData = l.getRefuelings(currentCar);
-        for (int i = 0; i < refData.size() - 1; i++) {
-            consData.getData().add(new XYChart.Data(i + 1, l.getConsumption(currentCar, refData.get(i))));
+        for (int i = 1; i <= 12 - 1; i++) {
+            consData.getData().add(new XYChart.Data(getMonthName(i), l.monthAvg(currentCar, i, year)));
         }
 
         consChart.getData().add(consData);
         consChart.setLegendVisible(false);
-
         return consChart;
+    }
+
+    public String getMonthName(int month) {
+        return new DateFormatSymbols().getMonths()[month - 1];
     }
 
 }

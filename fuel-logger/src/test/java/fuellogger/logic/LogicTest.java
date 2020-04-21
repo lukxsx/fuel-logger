@@ -1,8 +1,10 @@
-package fuellogger.domain;
+package fuellogger.logic;
 
 import fuellogger.logic.Logic;
 import fuellogger.domain.*;
 import fuellogger.dao.*;
+import fuellogger.domain.Car;
+import fuellogger.domain.Refueling;
 
 import java.sql.SQLException;
 import org.junit.After;
@@ -137,7 +139,7 @@ public class LogicTest {
         l.addRefueling(c, r1);
         l.addRefueling(c, r2);
         l.addRefueling(c, r3);
-        assertEquals(true, l.monthAvg(c, 1) == 0);
+        assertEquals(true, l.monthAvg(c, 1, 2020) == 0);
     }
     
     @Test
@@ -153,8 +155,8 @@ public class LogicTest {
         l.addRefueling(c, r1);
         l.addRefueling(c, r2);
         l.addRefueling(c, r3);
-        assertEquals(true, l.monthAvg(c, 5) == 9.86);
-        assertEquals(true, l.monthAvg(c, 4) == 10.453149001536097);
+        assertEquals(true, l.monthAvg(c, 5, 2019) == 9.86);
+        assertEquals(true, l.monthAvg(c, 4, 2019) == 10.453149001536097);
     }
     
     @Test
