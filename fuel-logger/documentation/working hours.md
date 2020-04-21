@@ -7,4 +7,5 @@
 | 7.4.  | 3    | added checkstyle and more tests, refuelings can be added from gui, class diagram |
 | 18.4. | 2    | added methods to count consumptions + consumption graph |
 | 20.4. | 2    | added more tests + sequence diagram off adding cars |
-| total | 16   |  |
+| 21.4. | 3    | monthly fuel consumption chart, added more tests, release |
+| total | 19   |  |
