@@ -1,11 +1,11 @@
 # Fuel logger
 
-A program to keep a log of car's fuel consumption. 
+A program to keep a log of car's fuel consumption. It can show interesting charts and data of your car's fuel consumption and cost of ownership. 
 
 [Release (viikko 5)](https://github.com/Lukxsx/ot-harjoitustyo/releases/tag/viikko5)
 
 ## Documentation
-[Requirements specification](fuel-logger/documentation/requirements.md)
+[Requirements](fuel-logger/documentation/requirements.md)
 
 [Architecture](fuel-logger/documentation/architecture.md)
 
