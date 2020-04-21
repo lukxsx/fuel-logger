@@ -241,7 +241,11 @@ public class GUI extends Application {
         });
 
         rfGraphsButton.setOnAction((ActionEvent e) -> {
-            graphScene = graphsScene(primaryStage);
+            try {
+                graphScene = graphsScene(primaryStage);
+            } catch (SQLException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             primaryStage.setScene(graphScene);
         });
 
@@ -254,7 +258,7 @@ public class GUI extends Application {
         return rfs;
     }
 
-    public Scene graphsScene(Stage primaryStage) {
+    public Scene graphsScene(Stage primaryStage) throws SQLException {
         /*
         *
         *   Graphs view
@@ -292,6 +296,20 @@ public class GUI extends Application {
         chart = monthChart((int) yearselect.getValue());
         graphPane.getChildren().add(chart);
         grLayout.getChildren().add(graphPane);
+        
+        VBox grBottomLayout = new VBox();
+        Label carNameLabel = new Label();
+        carNameLabel.setText("Car: " + currentCar.getName());
+        Label carTankLabel = new Label();
+        carTankLabel.setText("Fuel tank capacity: " + currentCar.getFuelcapacity() + " litres");
+        Label avgConsLabel = new Label();
+        double avg = l.avgConsumption(currentCar);
+        DecimalFormat df = new DecimalFormat("#.##");
+        avgConsLabel.setText("Average consumption: " + df.format(avg) + " l/100km");
+        Label totalVolumeLabel = new Label();
+        grBottomLayout.setSpacing(5);
+        grBottomLayout.getChildren().addAll(carNameLabel, carTankLabel, avgConsLabel, totalVolumeLabel);
+        grLayout.getChildren().add(grBottomLayout);
         
         yearSelectButton.setOnAction((ActionEvent e) -> {
             chart = monthChart((int) yearselect.getValue());
