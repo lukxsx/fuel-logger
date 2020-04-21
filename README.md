@@ -2,6 +2,8 @@
 
 A program to keep a log of car's fuel consumption. 
 
+[Release](https://github.com/Lukxsx/ot-harjoitustyo/releases/tag/viikko5)
+
 ## Documentation
 [Requirements specification](fuel-logger/documentation/requirements.md)
 
