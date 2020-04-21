@@ -315,7 +315,7 @@ public class GUI extends Application {
 
         XYChart.Series consData = new XYChart.Series();
 
-        for (int i = 1; i <= 12 - 1; i++) {
+        for (int i = 1; i <= 12; i++) {
             consData.getData().add(new XYChart.Data(getMonthName(i), l.monthAvg(currentCar, i, year)));
         }
 
