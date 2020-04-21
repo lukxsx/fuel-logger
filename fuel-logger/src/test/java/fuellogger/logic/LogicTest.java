@@ -160,6 +160,40 @@ public class LogicTest {
     }
     
     @Test
+    public void monthAvgMultipleYearTest() throws SQLException {
+        Car c = new Car("Volvo", 80);
+        l.addCar(c);
+        LocalDate d1 = LocalDate.of(2020, 1, 31);
+        Refueling r1 = new Refueling(c, 372358, 66.63, d1);
+        LocalDate d2 = LocalDate.of(2020, 1, 15);
+        Refueling r2 = new Refueling(c, 371707, 70.23, d2);
+        LocalDate d3 = LocalDate.of(2019, 12, 18);
+        Refueling r3 = new Refueling(c, 371014, 66.53, d3);
+        LocalDate d4 = LocalDate.of(2019, 11, 22);
+        Refueling r4 = new Refueling(c, 370426, 70.59, d4);
+        l.addRefueling(c, r1);
+        l.addRefueling(c, r2);
+        l.addRefueling(c, r3);
+        l.addRefueling(c, r4);
+        assertEquals(true, l.monthAvg(c, 1, 2020) == 10.235023041474655);
+        assertEquals(true, l.monthAvg(c, 12, 2019) == 10.134199134199134);
+    }
+    
+    @Test
+    public void monthAvgReturnsZeroIfNoRefuelingsOnYear() throws SQLException {
+        Car c = new Car("Volvo", 80);
+        l.addCar(c);
+        LocalDate d1 = LocalDate.of(2020, 1, 31);
+        Refueling r1 = new Refueling(c, 372358, 66.63, d1);
+        LocalDate d2 = LocalDate.of(2020, 1, 15);
+        Refueling r2 = new Refueling(c, 371707, 70.23, d2);
+
+        l.addRefueling(c, r1);
+        l.addRefueling(c, r2);
+        assertEquals(true, l.monthAvg(c, 12, 2019) == 0);
+    }
+    
+    @Test
     public void gettingRefuelingsFromDBWorks() throws SQLException {
         Car c = new Car("Volvo", 80);
         l.addCar(c);
