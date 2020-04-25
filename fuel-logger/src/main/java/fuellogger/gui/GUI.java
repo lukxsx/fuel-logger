@@ -167,7 +167,7 @@ public class GUI extends Application {
         Label rfAvgConsumption = new Label();
         double avg = l.avgConsumption(currentCar);
         DecimalFormat df = new DecimalFormat("#.##");
-        rfAvgConsumption.setText("Average consumption: " + df.format(avg) + " l/100km");
+        rfAvgConsumption.setText("Average consumption: " + df.format(avg) + " l/100km    Refuelings: " + l.numberOfRefuelings(currentCar));
         refuelTopLayout.getChildren().add(rfCarLabel);
         refuelTopLayout.getChildren().add(rfAvgConsumption);
 
@@ -297,19 +297,31 @@ public class GUI extends Application {
         graphPane.getChildren().add(chart);
         grLayout.getChildren().add(graphPane);
         
+        // car stats under chart
         VBox grBottomLayout = new VBox();
+        Label infoLabel = new Label("Stats:");
+        
         Label carNameLabel = new Label();
         carNameLabel.setText("Car: " + currentCar.getName());
+        
         Label carTankLabel = new Label();
         carTankLabel.setText("Fuel tank capacity: " + currentCar.getFuelcapacity() + " litres");
+        
         Label avgConsLabel = new Label();
         double avg = l.avgConsumption(currentCar);
         DecimalFormat df = new DecimalFormat("#.##");
         avgConsLabel.setText("Average consumption: " + df.format(avg) + " l/100km");
+        
         Label totalVolumeLabel = new Label();
+        totalVolumeLabel.setText("Fuel consumed: " + df.format(l.totalVolume(currentCar)) + " litres");
+        
+        Label numOfRefuelingsLabel = new Label();
+        numOfRefuelingsLabel.setText("Refuelings: " + l.numberOfRefuelings(currentCar));
+        
         grBottomLayout.setSpacing(5);
-        grBottomLayout.getChildren().addAll(carNameLabel, carTankLabel, avgConsLabel, totalVolumeLabel);
+        grBottomLayout.getChildren().addAll(infoLabel, carNameLabel, carTankLabel, avgConsLabel, totalVolumeLabel, numOfRefuelingsLabel);
         grLayout.getChildren().add(grBottomLayout);
+        
         
         yearSelectButton.setOnAction((ActionEvent e) -> {
             chart = monthChart((int) yearselect.getValue());

@@ -86,18 +86,11 @@ public class Logic {
     }
 
     public double monthAvg(Car car, int month, int year) {
-        ArrayList<Refueling> refuelings = getRefuelings(car);
-        ArrayList<Refueling> valid = new ArrayList<>();
-        
-        for (Refueling r : refuelings) {
-            if (r.getDate().getMonthValue() == month && r.getDate().getYear() == year) {
-                valid.add(r);
-            }
-        }
+        ArrayList<Refueling> monthlyrefuelings = refuelingsPerMonth(car, month, year);
 
         double sum = 0;
         int counter = 0;
-        for (Refueling r : valid) {
+        for (Refueling r : monthlyrefuelings) {
             double cons = getConsumption(car, r);
             if (cons != 0) {
                 sum = sum + cons;
@@ -110,5 +103,37 @@ public class Logic {
         }
         
         return (double) sum / (double) counter;
+    }
+    
+    public ArrayList<Refueling> refuelingsPerMonth(Car car, int month, int year) {
+        ArrayList<Refueling> allrefuelings = getRefuelings(car);
+        ArrayList<Refueling> valid = new ArrayList<>();
+        
+        for (Refueling r : allrefuelings) {
+            if (r.getDate().getMonthValue() == month && r.getDate().getYear() == year) {
+                valid.add(r);
+            }
+        }
+        return valid;
+    }
+    
+    public int kmsInMonth(Car car, int month, int year) {
+        ArrayList<Refueling> monthlyrefuelings = refuelingsPerMonth(car, month, year);
+        int km1 = monthlyrefuelings.get(0).getOdometer();
+        int km2 = monthlyrefuelings.get(monthlyrefuelings.size() - 1).getOdometer();
+        System.out.println(km2 - km1);
+        return 0;
+    }
+    
+    public int numberOfRefuelings(Car c) {
+        return this.refuelings.get(c).size();
+    }
+    
+    public double totalVolume(Car c) {
+        double volume = 0;
+        for (Refueling r: this.refuelings.get(c)) {
+            volume = volume + r.getVolume();
+        }
+        return volume;
     }
 }
