@@ -14,7 +14,7 @@ public class Logic {
     public ArrayList<Car> cars;
     public HashMap<Car, ArrayList<Refueling>> refuelings;
 
-    public Logic(String database) throws SQLException {
+    public Logic(String database) {
         this.db = new Database(database);
         this.cars = db.getCars();
         this.refuelings = new HashMap<>();
@@ -34,17 +34,17 @@ public class Logic {
         }
     }
 
-    public void clearDB() throws SQLException {
+    public void clearDB() {
         // used for tests
         db.clear();
     }
 
-    public void addRefueling(Car car, Refueling refueling) throws SQLException {
+    public void addRefueling(Car car, Refueling refueling) {
         this.refuelings.get(car).add(refueling);
         this.db.addRefill(refueling);
     }
 
-    public ArrayList<Refueling> getRefuelingsFromDB(Car car) throws SQLException {
+    public ArrayList<Refueling> getRefuelingsFromDB(Car car) {
         return db.getRefuelings(car);
     }
 
@@ -52,7 +52,7 @@ public class Logic {
         return this.refuelings.get(car);
     }
 
-    public double avgConsumption(Car car) throws SQLException {
+    public double avgConsumption(Car car) {
         ArrayList<Refueling> refs = this.refuelings.get(car);
         if (refs.isEmpty() || refs.size() == 1) {
             return 0;

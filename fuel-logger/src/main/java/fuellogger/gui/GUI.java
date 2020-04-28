@@ -45,7 +45,7 @@ public class GUI extends Application {
     Chart chart;
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         l = new Logic("database.db");
         this.currentCar = null;
@@ -83,7 +83,6 @@ public class GUI extends Application {
 
         TableColumn<String, Car> csNameColumn = new TableColumn("Car");
         csNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        //TableColumn csOdometerColumn = new TableColumn("Odometer");
         carSelect.getColumns().addAll(csNameColumn);
 
         // date for table
@@ -104,11 +103,7 @@ public class GUI extends Application {
             ObservableList<Car> selectedCar = CSselectionModel.getSelectedItems();
             if (!(selectedCar.size() == 0)) {
                 currentCar = selectedCar.get(0);
-                try {
-                    refuelingsScene = refuelScene(primaryStage);
-                } catch (SQLException ex) {
-                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                refuelingsScene = refuelScene(primaryStage);
 
                 primaryStage.setScene(refuelingsScene);
             }
@@ -145,7 +140,7 @@ public class GUI extends Application {
         return css;
     }
 
-    public Scene refuelScene(Stage primaryStage) throws SQLException {
+    public Scene refuelScene(Stage primaryStage) {
         /*
         *
         *   Refuelings view
@@ -221,31 +216,19 @@ public class GUI extends Application {
             double pr = Double.valueOf(priceField.getText());
             LocalDate date = dateField.getValue();
             Refueling r = new Refueling(currentCar, odo, vol, pr, date);
-            try {
                 l.addRefueling(currentCar, r);
-            } catch (SQLException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
             refuelingData.add(r);
             odField.clear();
             volField.clear();
             dateField.getEditor().clear();
             rfAvgConsumption.setText("Average consumption: " + df.format(avg) + " l/100km");
-            try {
                 this.refuelingsScene = refuelScene(primaryStage);
                 primaryStage.setScene(refuelingsScene);
-            } catch (SQLException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
         });
 
         rfGraphsButton.setOnAction((ActionEvent e) -> {
-            try {
                 graphScene = graphsScene(primaryStage);
-            } catch (SQLException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
             primaryStage.setScene(graphScene);
         });
 
@@ -258,7 +241,7 @@ public class GUI extends Application {
         return rfs;
     }
 
-    public Scene graphsScene(Stage primaryStage) throws SQLException {
+    public Scene graphsScene(Stage primaryStage) {
         /*
         *
         *   Graphs view
