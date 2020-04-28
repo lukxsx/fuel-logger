@@ -19,7 +19,7 @@ public class Refueling implements Comparable<Refueling> {
     public int odometer;
     
     /**
-     * Volume in litres
+     * Volume in liter
      */
     public double volume;
     
@@ -29,7 +29,7 @@ public class Refueling implements Comparable<Refueling> {
     public LocalDate date;
     
     /**
-     * Price of fuel per litre in euros
+     * Price of fuel per liter in euros
      */
     public double price;
 
