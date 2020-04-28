@@ -40,11 +40,15 @@ public class Database {
 
     public ArrayList<Car> getCars() throws SQLException {
         ArrayList<Car> cars = new ArrayList<>();
+        try {
         PreparedStatement carQuery = db.prepareStatement("SELECT * FROM Car");
         ResultSet carResults = carQuery.executeQuery();
         while (carResults.next()) {
             cars.add(new Car(carResults.getString("name"),
                     carResults.getInt("fuel_capacity")));
+        }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return cars;
     }

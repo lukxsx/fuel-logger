@@ -270,4 +270,46 @@ public class LogicTest {
         assertEquals(true, l.kmsInMonth(c, 2, 2020) == 753);
     }
 
+    @Test
+    public void kmsInMonthTest2() throws SQLException {
+        Car c = new Car("Volvo", 80);
+        l.addCar(c);
+        LocalDate d1 = LocalDate.of(2020, 2, 16);
+        Refueling r1 = new Refueling(c, 373020, 69.92, 0, d1);
+        LocalDate d2 = LocalDate.of(2020, 2, 28);
+        Refueling r2 = new Refueling(c, 373773, 70.13, 0, d2);
+        LocalDate d3 = LocalDate.of(2020, 3, 13);
+        Refueling r3 = new Refueling(c, 374545, 71.61, 0, d3);
+        l.addRefueling(c, r1);
+        l.addRefueling(c, r2);
+        l.addRefueling(c, r3);
+        assertEquals(true, l.kmsInMonth(c, 3, 2020) == 0);
+    }
+    
+    @Test
+    public void totalKmsWorksCorrectly() throws SQLException {
+        Car c = new Car("Volvo", 80);
+        l.addCar(c);
+        LocalDate d1 = LocalDate.of(2020, 1, 31);
+        Refueling r1 = new Refueling(c, 372358, 66.63, 0, d1);
+        LocalDate d2 = LocalDate.of(2020, 1, 15);
+        Refueling r2 = new Refueling(c, 371707, 70.23, 0, d2);
+        LocalDate d3 = LocalDate.of(2019, 12, 18);
+        Refueling r3 = new Refueling(c, 371014, 66.53, 0, d3);
+        LocalDate d4 = LocalDate.of(2019, 11, 22);
+        Refueling r4 = new Refueling(c, 370426, 70.59, 0, d4);
+        l.addRefueling(c, r1);
+        l.addRefueling(c, r2);
+        l.addRefueling(c, r3);
+        l.addRefueling(c, r4);
+        
+        assertEquals(true, l.totalKms(c) == 1932);
+    }
+    
+    @Test
+    public void totalKmsReturnsZeroIfNoRefuelings() {
+        Car c = new Car("Volvo", 80);
+        l.addCar(c);
+        assertEquals(true, l.totalKms(c) == 0);
+    }
 }
