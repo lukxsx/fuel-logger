@@ -198,7 +198,7 @@ public class GUI extends Application {
         rfAddLayout.setSpacing(10);
         rfAddLayout.getChildren().addAll(odField, volField, priceField, dateField, rfAddButton);
 
-        Button rfGraphsButton = new Button("Graphs");
+        Button rfGraphsButton = new Button("Charts");
 
         refuelLayout.getChildren().add(refuelTopLayout);
         refuelLayout.getChildren().add(refills);

@@ -65,7 +65,7 @@ public class LogicTest {
         LocalDate d = LocalDate.of(2020, 1, 1);
         Refueling r = new Refueling(c, 100000, 70, 1.5, d);
         l.addCar(c);
-        l.addRefueling(c, r);
+        l.addRefueling(r);
         assertEquals(true, l.avgConsumption(c) == 0);
     }
     
@@ -77,8 +77,8 @@ public class LogicTest {
         Refueling r1 = new Refueling(c, 373773, 70.13, 1.5, d1);
         LocalDate d2 = LocalDate.of(2020, 3, 13);
         Refueling r2 = new Refueling(c, 374545, 71.61, 1.5, d2);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
         assertEquals(true, l.avgConsumption(c) == 9.275906735751295);
     }
     
@@ -92,9 +92,9 @@ public class LogicTest {
         Refueling r2 = new Refueling(c, 373773, 70.13, 1.5, d2);
         LocalDate d3 = LocalDate.of(2020, 3, 13);
         Refueling r3 = new Refueling(c, 374545, 71.61, 1.5, d3);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
-        l.addRefueling(c, r3);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
         assertEquals(true, l.avgConsumption(c) == 9.294426229508197);
     }
     
@@ -110,10 +110,10 @@ public class LogicTest {
         Refueling r2 = new Refueling(c, 373773, 70.13, 0, d2);
         LocalDate d3 = LocalDate.of(2020, 3, 13);
         Refueling r3 = new Refueling(c, 374545, 71.61, 0, d3);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
-        l.addRefueling(c, r3);
-        assertEquals(true, l.getConsumption(c, r3) == 0);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
+        assertEquals(true, l.getConsumption(r3) == 0);
     }
     
     @Test
@@ -128,10 +128,10 @@ public class LogicTest {
         Refueling r2 = new Refueling(c, 373773, 70.13, 0, d2);
         LocalDate d3 = LocalDate.of(2020, 3, 13);
         Refueling r3 = new Refueling(c, 374545, 71.61, 0, d3);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
-        l.addRefueling(c, r3);
-        assertEquals(true, l.getConsumption(c, r2) == 9.275906735751295);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
+        assertEquals(true, l.getConsumption(r2) == 9.275906735751295);
     }
     
     @Test
@@ -144,9 +144,9 @@ public class LogicTest {
         Refueling r2 = new Refueling(c, 373773, 70.13, 0, d2);
         LocalDate d3 = LocalDate.of(2020, 3, 13);
         Refueling r3 = new Refueling(c, 374545, 71.61, 0, d3);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
-        l.addRefueling(c, r3);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
         assertEquals(true, l.monthAvg(c, 1, 2020) == 0);
     }
     
@@ -160,9 +160,9 @@ public class LogicTest {
         Refueling r2 = new Refueling(c, 362919, 68.05, 0, d2);
         LocalDate d3 = LocalDate.of(2019, 4, 23);
         Refueling r3 = new Refueling(c, 362268, 66.75, 0, d3);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
-        l.addRefueling(c, r3);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
         assertEquals(true, l.monthAvg(c, 5, 2019) == 9.86);
         assertEquals(true, l.monthAvg(c, 4, 2019) == 10.453149001536097);
     }
@@ -179,10 +179,10 @@ public class LogicTest {
         Refueling r3 = new Refueling(c, 371014, 66.53, 0, d3);
         LocalDate d4 = LocalDate.of(2019, 11, 22);
         Refueling r4 = new Refueling(c, 370426, 70.59, 0, d4);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
-        l.addRefueling(c, r3);
-        l.addRefueling(c, r4);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
+        l.addRefueling(r4);
         assertEquals(true, l.monthAvg(c, 1, 2020) == 10.235023041474655);
         assertEquals(true, l.monthAvg(c, 12, 2019) == 10.134199134199134);
     }
@@ -196,8 +196,8 @@ public class LogicTest {
         LocalDate d2 = LocalDate.of(2020, 1, 15);
         Refueling r2 = new Refueling(c, 371707, 70.23, 0, d2);
 
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
         assertEquals(true, l.monthAvg(c, 12, 2019) == 0);
     }
     
@@ -211,9 +211,9 @@ public class LogicTest {
         Refueling r2 = new Refueling(c, 373773, 70.13, 0, d2);
         LocalDate d3 = LocalDate.of(2020, 3, 13);
         Refueling r3 = new Refueling(c, 374545, 71.61, 0, d3);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
-        l.addRefueling(c, r3);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
         
         Logic l2 = new Logic("logictest.db");
         assertEquals(true, l2.refuelings.get(c).size() == 3);
@@ -231,9 +231,9 @@ public class LogicTest {
         Refueling r3 = new Refueling(c1, 374545, 71.61, 0, d3);
         l.addCar(c1);
         l.addCar(c2);
-        l.addRefueling(c1, r1);
-        l.addRefueling(c2, r2);
-        l.addRefueling(c1, r3);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
         assertEquals(true, l.numberOfRefuelings(c1) == 2);
         assertEquals(true, l.numberOfRefuelings(c2) == 1);
     }
@@ -248,9 +248,9 @@ public class LogicTest {
         Refueling r2 = new Refueling(c, 373773, 70.13, 0, d2);
         LocalDate d3 = LocalDate.of(2020, 3, 13);
         Refueling r3 = new Refueling(c, 374545, 71.61, 0, d3);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
-        l.addRefueling(c, r3);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
         assertEquals(true, l.kmsInMonth(c, 4, 2020) == 0);
     }
     
@@ -264,9 +264,9 @@ public class LogicTest {
         Refueling r2 = new Refueling(c, 373773, 70.13, 0, d2);
         LocalDate d3 = LocalDate.of(2020, 3, 13);
         Refueling r3 = new Refueling(c, 374545, 71.61, 0, d3);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
-        l.addRefueling(c, r3);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
         assertEquals(true, l.kmsInMonth(c, 2, 2020) == 753);
     }
 
@@ -280,9 +280,9 @@ public class LogicTest {
         Refueling r2 = new Refueling(c, 373773, 70.13, 0, d2);
         LocalDate d3 = LocalDate.of(2020, 3, 13);
         Refueling r3 = new Refueling(c, 374545, 71.61, 0, d3);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
-        l.addRefueling(c, r3);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
         assertEquals(true, l.kmsInMonth(c, 3, 2020) == 0);
     }
     
@@ -298,10 +298,10 @@ public class LogicTest {
         Refueling r3 = new Refueling(c, 371014, 66.53, 0, d3);
         LocalDate d4 = LocalDate.of(2019, 11, 22);
         Refueling r4 = new Refueling(c, 370426, 70.59, 0, d4);
-        l.addRefueling(c, r1);
-        l.addRefueling(c, r2);
-        l.addRefueling(c, r3);
-        l.addRefueling(c, r4);
+        l.addRefueling(r1);
+        l.addRefueling(r2);
+        l.addRefueling(r3);
+        l.addRefueling(r4);
         
         assertEquals(true, l.totalKms(c) == 1932);
     }
