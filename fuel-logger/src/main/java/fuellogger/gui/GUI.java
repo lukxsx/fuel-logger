@@ -274,8 +274,9 @@ public class GUI extends Application {
         Label cbLabel = new Label("Select graph:");
         cb.getItems().add("Consumption by month");
         cb.getItems().add("Cost by month");
+        cb.getItems().add("Kilometres by month");
         cb.setValue("Consumption by month");
-        
+
         Button back = new Button("Back");
 
         LocalDate today = LocalDate.now();
@@ -301,7 +302,6 @@ public class GUI extends Application {
         graphPane.getChildren().add(chart);
         grLayout.getChildren().add(graphPane);
 
-        
         VBox grBottomLayout = carStats(currentCar);
         grLayout.getChildren().add(grBottomLayout);
 
@@ -314,11 +314,11 @@ public class GUI extends Application {
                 case "Cost by month":
                     chart = costChart((int) yearselect.getValue());
                     break;
-                default:
-                    chart = monthChart((int) yearselect.getValue());
+                case "Kilometres by month":
+                    chart = kmsChart((int) yearselect.getValue());
                     break;
             }
-            
+
             graphPane.getChildren().clear();
             graphPane.getChildren().add(chart);
         });
@@ -347,25 +347,45 @@ public class GUI extends Application {
         consChart.setLegendVisible(false);
         return consChart;
     }
-    
+
     private Chart costChart(int year) {
         CategoryAxis costXAxis = new CategoryAxis();
         NumberAxis costYAxis = new NumberAxis();
         costXAxis.setLabel("Month");
         costYAxis.setLabel("Cost");
-        
+
         BarChart<String, Number> costChart = new BarChart<>(costXAxis, costYAxis);
         costChart.setTitle("Cost by month");
-        
+
         XYChart.Series costData = new XYChart.Series();
-        
+
         for (int i = 1; i <= 12; i++) {
             costData.getData().add(new XYChart.Data(getMonthName(i), l.costPerMonth(currentCar, i, year)));
         }
-        
+
         costChart.getData().add(costData);
         costChart.setLegendVisible(false);
         return costChart;
+    }
+
+    private Chart kmsChart(int year) {
+        CategoryAxis kmsXAxis = new CategoryAxis();
+        NumberAxis kmsYAxis = new NumberAxis();
+        kmsXAxis.setLabel("Month");
+        kmsYAxis.setLabel("Driven kilometers");
+
+        BarChart<String, Number> kmsChart = new BarChart<>(kmsXAxis, kmsYAxis);
+        kmsChart.setTitle("Driven kilometers");
+
+        XYChart.Series kmsData = new XYChart.Series();
+
+        for (int i = 1; i <= 12; i++) {
+            kmsData.getData().add(new XYChart.Data(getMonthName(i), l.kmsInMonth(currentCar, i, year)));
+        }
+
+        kmsChart.getData().add(kmsData);
+        kmsChart.setLegendVisible(false);
+        return kmsChart;
     }
 
     private VBox carStats(Car car) {
@@ -385,15 +405,20 @@ public class GUI extends Application {
 
         Label totalVolumeLabel = new Label();
         totalVolumeLabel.setText("Fuel consumed: " + df.format(l.totalVolume(car)) + " litres");
-        
+
         Label totalCostLabel = new Label();
         totalCostLabel.setText("Total fuel cost: " + df.format(l.totalCost(car)) + " €");
+
+        Label totalKmsLabel = new Label();
+        totalKmsLabel.setText("Total driven kilometers: " + l.totalKms(car) + " km");
 
         Label numOfRefuelingsLabel = new Label();
         numOfRefuelingsLabel.setText("Refuelings: " + l.numberOfRefuelings(car));
 
         statsLayout.setSpacing(5);
-        statsLayout.getChildren().addAll(infoLabel, carNameLabel, carTankLabel, avgConsLabel, totalVolumeLabel, totalCostLabel, numOfRefuelingsLabel);
+        statsLayout.getChildren().addAll(infoLabel, carNameLabel, carTankLabel,
+                avgConsLabel, totalVolumeLabel, totalCostLabel, totalKmsLabel,
+                numOfRefuelingsLabel);
         return statsLayout;
     }
 

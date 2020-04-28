@@ -97,18 +97,18 @@ public class Logic {
                 counter++;
             }
         }
-        
+
         if (sum == 0) {
             return 0;
         }
-        
+
         return (double) sum / (double) counter;
     }
-    
+
     public ArrayList<Refueling> refuelingsInMonth(Car car, int month, int year) {
         ArrayList<Refueling> allrefuelings = getRefuelings(car);
         ArrayList<Refueling> valid = new ArrayList<>();
-        
+
         for (Refueling r : allrefuelings) {
             if (r.getDate().getMonthValue() == month && r.getDate().getYear() == year) {
                 valid.add(r);
@@ -116,39 +116,51 @@ public class Logic {
         }
         return valid;
     }
-    
+
     public int kmsInMonth(Car car, int month, int year) {
         ArrayList<Refueling> monthlyrefuelings = refuelingsInMonth(car, month, year);
+        if (monthlyrefuelings.isEmpty()) {
+            return 0;
+        }
         int km1 = monthlyrefuelings.get(0).getOdometer();
         int km2 = monthlyrefuelings.get(monthlyrefuelings.size() - 1).getOdometer();
         return Math.abs(km2 - km1);
     }
-    
+
+    public int totalKms(Car c) {
+        if (refuelings.get(c).isEmpty()) {
+            return 0;
+        }
+        Collections.sort(refuelings.get(c));
+        int first = refuelings.get(c).get(0).getOdometer();
+        int last = refuelings.get(c).get(refuelings.get(c).size() - 1).getOdometer();
+        return last - first;
+    }
+
     public int numberOfRefuelings(Car c) {
         return this.refuelings.get(c).size();
     }
-    
+
     public double totalVolume(Car c) {
         double volume = 0;
-        for (Refueling r: this.refuelings.get(c)) {
+        for (Refueling r : this.refuelings.get(c)) {
             volume = volume + r.getVolume();
         }
         return volume;
     }
-    
+
     public double totalCost(Car c) {
         double cost = 0;
-        for (Refueling r: this.refuelings.get(c)) {
+        for (Refueling r : this.refuelings.get(c)) {
             cost = cost + r.getCost();
         }
         return cost;
     }
 
-    
     public double costPerMonth(Car car, int month, int year) {
         ArrayList<Refueling> monthlyrefuelings = refuelingsInMonth(car, month, year);
         double totalcost = 0;
-        for (Refueling r: monthlyrefuelings) {
+        for (Refueling r : monthlyrefuelings) {
             totalcost = totalcost + r.getCost();
         }
         return totalcost;

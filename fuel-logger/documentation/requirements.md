@@ -16,10 +16,8 @@ need for them.
 - [x] Logging a refueling (kilometrage, volume in litres)
 - [x] Viewing average fuel consumption
 - [x] Viewing graphs of fuel consumption
-- [ ] Viewing graphs of cost
-- [ ] Viewing graphs of driven kilometres
-- [ ] Backup and restore of the data to a file (to use the software easily on
-  another computer)
+- [x] Viewing graphs of cost
+- [x] Viewing graphs of driven kilometres
 
 ## Future features
 - [ ] Text-based UI for quick fuel logging without need for opening the
@@ -27,6 +25,8 @@ need for them.
 - [ ] Logging of other costs like repairs, taxes and insurances
 - [ ] Support for other than SI and euro units (miles, dollars etc.)
 - [ ] Exporting data as CSV or some other common file type
+- [ ] Backup and restore of the data to a file (to use the software easily on
+  another computer)
 
 ## Limitations
 * Only works when tank is filled full, no partial refuelings
