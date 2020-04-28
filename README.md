@@ -3,6 +3,7 @@
 A program to keep track of the fuel consumption of a car. It can show interesting charts and data of your car's fuel consumption and cost of ownership. 
 
 ## Releases
+__HUOM!__ Tarkastajille tietoksi: *Cubblin virtuaalityöasemassa on ollut ongelmia useammalla kurssilaisella SQLiten kanssa. Jostain syystä SQLiteä käyttävät työt antavat virtuaalityöasemassa testattaessa välillä virheilmoituksen* ```[SQLITE_ERROR] SQL error or missing database (no such table...```*, mutta ovat toimineet täysin ongelmitta oikeiden koneiden Cubbli-asennuksilla. Olen testannut ohjelmani Cubbli-virtuaalityöasemassa ja se toimi hyvin, mutta suosittelen testaamaan ei-virtuaalikoneella, jos noita virheilmoituksia tulee.*
 * [viikko 6](https://github.com/Lukxsx/ot-harjoitustyo/releases/tag/viikko6)
 * [viikko 5](https://github.com/Lukxsx/ot-harjoitustyo/releases/tag/viikko5)
 
