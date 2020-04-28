@@ -1,15 +1,36 @@
 package fuellogger.domain;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+/**
+ * Contains basic information of the refueling. 
+ */
 public class Refueling implements Comparable<Refueling> {
-
+    
+    /**
+     * Car that this refueling belongs to
+     */
     public Car car;
+    
+    /**
+     * Odometer value
+     */
     public int odometer;
+    
+    /**
+     * Volume in litres
+     */
     public double volume;
+    
+    /**
+     * Date of the refueling
+     */
     public LocalDate date;
+    
+    /**
+     * Price of fuel per litre in euros
+     */
     public double price;
 
     public Refueling(Car car, int odometer, double volume, double price, LocalDate date) {
@@ -40,6 +61,10 @@ public class Refueling implements Comparable<Refueling> {
         return volume;
     }
     
+    /**
+     * Returns the cost of refueling (price x amount)
+     * @return cost of refueling
+     */
     public double getCost() {
         return this.volume * this.price;
     }

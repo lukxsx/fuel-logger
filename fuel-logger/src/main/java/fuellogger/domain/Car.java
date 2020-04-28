@@ -3,6 +3,9 @@ package fuellogger.domain;
 
 import java.util.Objects;
 
+/**
+ * A car object. Contains needed information of the car. 
+ */
 public class Car {
     private String name;
     private int fuelcapacity;
