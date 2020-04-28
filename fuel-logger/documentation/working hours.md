@@ -8,4 +8,6 @@
 | 18.4. | 2    | added methods to count consumptions + consumption graph |
 | 20.4. | 2    | added more tests + sequence diagram off adding cars |
 | 21.4. | 3    | monthly fuel consumption chart, added more tests, release |
-| total | 19   |  |
+| 25.4. | 0.5  | fixes, helper methods to logic class |
+| 28.4. | 4    | monthly cost chart, monthly kilometer chart, javadocs, release |
+| total | 23.5 |  |
