@@ -216,6 +216,7 @@ public class GUI extends Application {
         refuelLayout.getChildren().add(refills);
         refuelLayout.getChildren().add(rfAddLayout);
         refuelLayout.getChildren().add(rfGraphsButton);
+        refuelLayout.getChildren().add(carStats());
         refuelLayout.setSpacing(10);
 
         rfAddButton.setOnAction((ActionEvent e) -> {
@@ -292,40 +293,17 @@ public class GUI extends Application {
         });
 
         grLayout.getChildren().add(graphsTop);
-        
-        
+
         VBox graphPane = new VBox();
 
         chart = monthChart((int) yearselect.getValue());
         graphPane.getChildren().add(chart);
         grLayout.getChildren().add(graphPane);
+
         
-        // car stats under chart
-        VBox grBottomLayout = new VBox();
-        Label infoLabel = new Label("Stats:");
-        
-        Label carNameLabel = new Label();
-        carNameLabel.setText("Car: " + currentCar.getName());
-        
-        Label carTankLabel = new Label();
-        carTankLabel.setText("Fuel tank capacity: " + currentCar.getFuelcapacity() + " litres");
-        
-        Label avgConsLabel = new Label();
-        double avg = l.avgConsumption(currentCar);
-        DecimalFormat df = new DecimalFormat("#.##");
-        avgConsLabel.setText("Average consumption: " + df.format(avg) + " l/100km");
-        
-        Label totalVolumeLabel = new Label();
-        totalVolumeLabel.setText("Fuel consumed: " + df.format(l.totalVolume(currentCar)) + " litres");
-        
-        Label numOfRefuelingsLabel = new Label();
-        numOfRefuelingsLabel.setText("Refuelings: " + l.numberOfRefuelings(currentCar));
-        
-        grBottomLayout.setSpacing(5);
-        grBottomLayout.getChildren().addAll(infoLabel, carNameLabel, carTankLabel, avgConsLabel, totalVolumeLabel, numOfRefuelingsLabel);
+        VBox grBottomLayout = carStats();
         grLayout.getChildren().add(grBottomLayout);
-        
-        
+
         yearSelectButton.setOnAction((ActionEvent e) -> {
             chart = monthChart((int) yearselect.getValue());
             graphPane.getChildren().clear();
@@ -355,6 +333,32 @@ public class GUI extends Application {
         consChart.getData().add(consData);
         consChart.setLegendVisible(false);
         return consChart;
+    }
+
+    private VBox carStats() {
+        VBox statsLayout = new VBox();
+        Label infoLabel = new Label("Stats:");
+
+        Label carNameLabel = new Label();
+        carNameLabel.setText("Car: " + currentCar.getName());
+
+        Label carTankLabel = new Label();
+        carTankLabel.setText("Fuel tank capacity: " + currentCar.getFuelcapacity() + " litres");
+
+        Label avgConsLabel = new Label();
+        double avg = l.avgConsumption(currentCar);
+        DecimalFormat df = new DecimalFormat("#.##");
+        avgConsLabel.setText("Average consumption: " + df.format(avg) + " l/100km");
+
+        Label totalVolumeLabel = new Label();
+        totalVolumeLabel.setText("Fuel consumed: " + df.format(l.totalVolume(currentCar)) + " litres");
+
+        Label numOfRefuelingsLabel = new Label();
+        numOfRefuelingsLabel.setText("Refuelings: " + l.numberOfRefuelings(currentCar));
+
+        statsLayout.setSpacing(5);
+        statsLayout.getChildren().addAll(infoLabel, carNameLabel, carTankLabel, avgConsLabel, totalVolumeLabel, numOfRefuelingsLabel);
+        return statsLayout;
     }
 
     public String getMonthName(int month) {
