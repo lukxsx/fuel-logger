@@ -41,7 +41,7 @@ public class Logic {
 
     public void addRefueling(Car car, Refueling refueling) throws SQLException {
         this.refuelings.get(car).add(refueling);
-        this.db.addRefill(car, refueling);
+        this.db.addRefill(refueling);
     }
 
     public ArrayList<Refueling> getRefuelingsFromDB(Car car) throws SQLException {
@@ -53,33 +53,33 @@ public class Logic {
     }
 
     public double avgConsumption(Car car) throws SQLException {
-        ArrayList<Refueling> refuelings = this.refuelings.get(car);
-        if (refuelings.size() == 0 || refuelings.size() == 1) {
+        ArrayList<Refueling> refs = this.refuelings.get(car);
+        if (refs.isEmpty() || refs.size() == 1) {
             return 0;
         }
         double litres = 0;
-        for (int i = 1; i < refuelings.size(); i++) {
-            litres = litres + refuelings.get(i).volume;
+        for (int i = 1; i < refs.size(); i++) {
+            litres = litres + refs.get(i).volume;
         }
 
-        Collections.sort(refuelings);
+        Collections.sort(refs);
 
-        int kms = refuelings.get(refuelings.size() - 1).odometer - refuelings.get(0).odometer;
+        int kms = refs.get(refs.size() - 1).odometer - refs.get(0).odometer;
 
         return litres / kms * 100;
     }
 
     public double getConsumption(Car car, Refueling refueling) {
-        ArrayList<Refueling> refuelings = this.refuelings.get(car);
-        Collections.sort(refuelings);
-        int index = refuelings.indexOf(refueling);
-        if (index == refuelings.size() - 1) {
+        ArrayList<Refueling> refs = this.refuelings.get(car);
+        Collections.sort(refs);
+        int index = refs.indexOf(refueling);
+        if (index == refs.size() - 1) {
             return 0;
             // can't count consumption from the latest refueling
             // because we don't know about the next refueling yet
         }
 
-        Refueling next = refuelings.get(index + 1);
+        Refueling next = refs.get(index + 1);
 
         int kms = next.odometer - refueling.odometer;
         return next.volume / kms * 100;

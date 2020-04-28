@@ -86,18 +86,18 @@ public class DatabaseTest {
     public void cantAddRefuelingIfNoCarInDB() throws SQLException { 
         Car c = new Car("Volvo", 80);
         LocalDate date = LocalDate.of(2019, 5, 24);
-        Refueling r = new Refueling(c, 363619, 69.02, date);
-        assertEquals(false, d.addRefill(c, r));
+        Refueling r = new Refueling(c, 363619, 69.02, 1.5, date);
+        assertEquals(false, d.addRefill(r));
     }
     
     @Test
     public void cantAddSameRefuelingMultipleTimes() throws SQLException {
         Car c = new Car("Volvo", 80);
         LocalDate d1 = LocalDate.of(2019, 5, 24);
-        Refueling r1 = new Refueling(c, 363619, 69.02, d1);
+        Refueling r1 = new Refueling(c, 363619, 69.02, 1.5, d1);
         d.addCar(c);
-        d.addRefill(c, r1);
-        assertEquals(false, d.addRefill(c, r1));
+        d.addRefill(r1);
+        assertEquals(false, d.addRefill(r1));
     }
     
     @Test
@@ -109,15 +109,15 @@ public class DatabaseTest {
     public void getRefuelingsWorks() throws SQLException {
         Car c = new Car("Volvo", 80);
         LocalDate d1 = LocalDate.of(2019, 5, 24);
-        Refueling r1 = new Refueling(c, 363619, 69.02, d1);
+        Refueling r1 = new Refueling(c, 363619, 69.02, 1.5, d1);
         LocalDate d2 = LocalDate.of(2019, 5, 9);
-        Refueling r2 = new Refueling(c, 362919, 68.05, d2);
+        Refueling r2 = new Refueling(c, 362919, 68.05, 1.5, d2);
         LocalDate d3 = LocalDate.of(2019, 4, 23);
-        Refueling r3 = new Refueling(c, 362268, 66.75, d3);
+        Refueling r3 = new Refueling(c, 362268, 66.75, 1.5, d3);
         d.addCar(c);
-        d.addRefill(c, r1);
-        d.addRefill(c, r2);
-        d.addRefill(c, r3);
+        d.addRefill(r1);
+        d.addRefill(r2);
+        d.addRefill(r3);
         assertEquals(true, d.getRefuelings().size() == 3);
         assertEquals(true, d.getRefuelings().get(1).equals(r2));
     }

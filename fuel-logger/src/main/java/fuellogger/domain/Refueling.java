@@ -10,12 +10,14 @@ public class Refueling implements Comparable<Refueling> {
     public int odometer;
     public double volume;
     public LocalDate date;
+    public double price;
 
-    public Refueling(Car car, int odometer, double volume, LocalDate date) {
+    public Refueling(Car car, int odometer, double volume, double price, LocalDate date) {
         this.car = car;
         this.odometer = odometer;
         this.volume = volume;
         this.date = date;
+        this.price = price;
     }
 
     @Override
@@ -29,6 +31,10 @@ public class Refueling implements Comparable<Refueling> {
 
     public Car getCar() {
         return car;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     public LocalDate getDate() {

@@ -202,11 +202,13 @@ public class GUI extends Application {
         odField.setPromptText("Odometer");
         TextField volField = new TextField();
         volField.setPromptText("Volume");
+        TextField priceField = new TextField();
+        priceField.setPromptText("Price");
         DatePicker dateField = new DatePicker();
         dateField.setPromptText("Date");
         Button rfAddButton = new Button("Add");
         rfAddLayout.setSpacing(10);
-        rfAddLayout.getChildren().addAll(odField, volField, dateField, rfAddButton);
+        rfAddLayout.getChildren().addAll(odField, volField, priceField, dateField, rfAddButton);
 
         Button rfGraphsButton = new Button("Graphs");
 
@@ -219,8 +221,9 @@ public class GUI extends Application {
         rfAddButton.setOnAction((ActionEvent e) -> {
             int odo = Integer.valueOf(odField.getText());
             double vol = Double.valueOf(volField.getText());
+            double pr = Double.valueOf(priceField.getText());
             LocalDate date = dateField.getValue();
-            Refueling r = new Refueling(currentCar, odo, vol, date);
+            Refueling r = new Refueling(currentCar, odo, vol, pr, date);
             try {
                 l.addRefueling(currentCar, r);
             } catch (SQLException ex) {

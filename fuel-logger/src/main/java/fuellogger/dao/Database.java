@@ -2,34 +2,27 @@ package fuellogger.dao;
 
 import fuellogger.domain.Car;
 import fuellogger.domain.Refueling;
-import java.io.File;
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 
 public class Database {
 
     Connection db;
 
-    public Database(String filename) throws SQLException {
+    public Database(String filename) {
 
-        // check if database file already exists
-        File check = new File(filename);
-
-        if (check.exists()) {
-            // if exists, establish a connection
-            db = DriverManager.getConnection("jdbc:sqlite:" + filename);
-        } else {
-            // if not, establish a connection and create tables
+        try {
             db = DriverManager.getConnection("jdbc:sqlite:" + filename);
 
             Statement s = db.createStatement();
-            s.execute("CREATE TABLE Car (id INTEGER PRIMARY KEY, name TEXT UNIQUE,"
+            s.execute("CREATE TABLE IF NOT EXISTS Car (id INTEGER PRIMARY KEY, name TEXT UNIQUE,"
                     + " fuel_capacity INTEGER NOT NULL)");
-            s.execute("CREATE TABLE Refueling (id INTEGER PRIMARY KEY, "
+            s.execute("CREATE TABLE IF NOT EXISTS Refueling (id INTEGER PRIMARY KEY, "
                     + "car_id INTEGER, odometer INTEGER UNIQUE, volume REAL"
-                    + ", day INTEGER, month INTEGER, year INTEGER)");
+                    + ", price REAL, day INTEGER, month INTEGER, year INTEGER)");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
 
     }
@@ -56,20 +49,21 @@ public class Database {
         return cars;
     }
 
-    public boolean addRefill(Car car, Refueling refueling) throws SQLException {
-        int carid = getCarId(car);
+    public boolean addRefill(Refueling refueling) throws SQLException {
+        int carid = getCarId(refueling.car);
         if (carid == 0) {
             return false;
         }
         try (PreparedStatement s = db.prepareStatement("INSERT INTO Refueling "
-                + "(car_id, odometer, volume, day, month, year) VALUES "
-                + "(?, ?, ?, ?, ?, ?)")) {
-            s.setInt(1, getCarId(car));
+                + "(car_id, odometer, volume, price, day, month, year) VALUES "
+                + "(?, ?, ?, ?, ?, ?, ?)")) {
+            s.setInt(1, carid);
             s.setInt(2, refueling.odometer);
             s.setDouble(3, refueling.volume);
-            s.setInt(4, refueling.date.getDayOfMonth());
-            s.setInt(5, refueling.date.getMonthValue());
-            s.setInt(6, refueling.date.getYear());
+            s.setDouble(4, refueling.price);
+            s.setInt(5, refueling.date.getDayOfMonth());
+            s.setInt(6, refueling.date.getMonthValue());
+            s.setInt(7, refueling.date.getYear());
             s.executeUpdate();
         } catch (Exception e) {
             return false;
@@ -110,7 +104,8 @@ public class Database {
                     refResults.getInt("month"), refResults.getInt("day"));
             refuelings.add(new Refueling(getCar(refResults.getInt("car_id")),
                     refResults.getInt("odometer"),
-                    refResults.getDouble("volume"), d));
+                    refResults.getDouble("volume"), 
+                    refResults.getDouble("price"), d));
         }
         return refuelings;
     }
@@ -123,7 +118,8 @@ public class Database {
         while (refResults.next()) {
             LocalDate d = LocalDate.of(refResults.getInt("year"),
                     refResults.getInt("month"), refResults.getInt("day"));
-            Refueling r = new Refueling(car, refResults.getInt("odometer"), refResults.getDouble("volume"), d);
+            Refueling r = new Refueling(car, refResults.getInt("odometer"), 
+                    refResults.getDouble("volume"), refResults.getDouble("price"), d);
             refuelings.add(r);
         }
 
