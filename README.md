@@ -1,6 +1,6 @@
 # Fuel logger
 
-A program to keep a log of car's fuel consumption. It can show interesting charts and data of your car's fuel consumption and cost of ownership. 
+A program to keep track of the fuel consumption of a car. It can show interesting charts and data of your car's fuel consumption and cost of ownership. 
 
 [Release (viikko 5)](https://github.com/Lukxsx/ot-harjoitustyo/releases/tag/viikko5)
 
@@ -13,29 +13,35 @@ A program to keep a log of car's fuel consumption. It can show interesting chart
 
 ## Commands
 
-### Tests
-Run tests
+### Running tests
 ```
 mvn test
 ```
 
-Test coverage
+### Test coverage
 ```
 mvn test jacoco:report
 ```
 
-Running
+### Running from Maven
 ```
 mvn compile exec:java -Dexec.mainClass=fuellogger.Main
 ```
 
-Package jar
+### Package jar
 ```
 mvn package
 ```
+Jar file will be generated in _target/fuel-logger-1.0-SNAPSHOT.jar_
 
-Checkstyle
+### Checkstyle
 ```
 mvn jxr:jxr checkstyle:checkstyle
 ```
+Checkstyle is generated in _target/site/checkstyle.html_
 
+### Javadoc
+```
+mvn javadoc:javadoc
+```
+Javadoc is generated in _target/site/apidocs/index.html_
