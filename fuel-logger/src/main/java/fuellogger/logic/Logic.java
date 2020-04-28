@@ -40,7 +40,7 @@ public class Logic {
 
     public void addRefueling(Car car, Refueling refueling) {
         this.refuelings.get(car).add(refueling);
-        this.db.addRefill(refueling);
+        this.db.addRefueling(refueling);
     }
 
     public ArrayList<Refueling> getRefuelingsFromDB(Car car) {

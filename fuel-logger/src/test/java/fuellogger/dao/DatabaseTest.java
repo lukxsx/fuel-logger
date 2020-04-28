@@ -87,7 +87,7 @@ public class DatabaseTest {
         Car c = new Car("Volvo", 80);
         LocalDate date = LocalDate.of(2019, 5, 24);
         Refueling r = new Refueling(c, 363619, 69.02, 1.5, date);
-        assertEquals(false, d.addRefill(r));
+        assertEquals(false, d.addRefueling(r));
     }
     
     @Test
@@ -96,8 +96,8 @@ public class DatabaseTest {
         LocalDate d1 = LocalDate.of(2019, 5, 24);
         Refueling r1 = new Refueling(c, 363619, 69.02, 1.5, d1);
         d.addCar(c);
-        d.addRefill(r1);
-        assertEquals(false, d.addRefill(r1));
+        d.addRefueling(r1);
+        assertEquals(false, d.addRefueling(r1));
     }
     
     @Test
@@ -115,9 +115,9 @@ public class DatabaseTest {
         LocalDate d3 = LocalDate.of(2019, 4, 23);
         Refueling r3 = new Refueling(c, 362268, 66.75, 1.5, d3);
         d.addCar(c);
-        d.addRefill(r1);
-        d.addRefill(r2);
-        d.addRefill(r3);
+        d.addRefueling(r1);
+        d.addRefueling(r2);
+        d.addRefueling(r3);
         assertEquals(true, d.getRefuelings().size() == 3);
         assertEquals(true, d.getRefuelings().get(1).equals(r2));
     }

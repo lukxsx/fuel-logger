@@ -6,9 +6,12 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * This class manages the SQLite database. It converts Car and Refueling objects to database and vice versa.
+ */
 public class Database {
 
-    Connection db;
+    private Connection db;
 
     public Database(String filename) {
 
@@ -26,7 +29,14 @@ public class Database {
         }
 
     }
-
+    
+    /**
+    * Adds a Car object to the database.
+    * 
+    * @param car A car object to be added
+    * 
+    * @return   returns true if car was added successfully to the database
+    */
     public boolean addCar(Car car) {
         try (PreparedStatement s = db.prepareStatement("INSERT INTO Car (name, fuel_capacity) VALUES (?, ?)")) {
             s.setString(1, car.getName());
@@ -37,7 +47,11 @@ public class Database {
         }
         return true;
     }
-
+    
+    /**
+     * Returns an ArrayList of all cars in the database.
+     * @return A list of cars in the database
+     */
     public ArrayList<Car> getCars() {
         ArrayList<Car> cars = new ArrayList<>();
         try {
@@ -52,8 +66,13 @@ public class Database {
         }
         return cars;
     }
-
-    public boolean addRefill(Refueling refueling) {
+    
+    /**
+     * Adds a Refueling to the database
+     * @param refueling Refueling object to be added
+     * @return Returns true if adding was successful
+     */
+    public boolean addRefueling(Refueling refueling) {
         int carid = getCarId(refueling.car);
         if (carid == 0) {
             return false;
@@ -74,7 +93,12 @@ public class Database {
         }
         return true;
     }
-
+    
+    /**
+     * Returns id of a car (in the database)
+     * @param car   The car to find the id
+     * @return Returns the id or zero if the car could not be found
+     */
     public int getCarId(Car car) {
         try {
             PreparedStatement carIdQuery = db.prepareStatement("SELECT id FROM Car WHERE name=?");
@@ -88,7 +112,12 @@ public class Database {
         }
         return 0;
     }
-
+    
+    /**
+     * Get a car by it's database id
+     * @param id Id you want to get
+     * @return Returns the car or null if no car with the id could be found
+     */
     public Car getCar(int id) {
         try {
             PreparedStatement carQuery = db.prepareStatement("SELECT * FROM Car WHERE id=?");
@@ -103,6 +132,10 @@ public class Database {
         return null;
     }
 
+    /**
+     * Returns a list of all refuelings in the database
+     * @return A list of refuelings
+     */
     public ArrayList<Refueling> getRefuelings() {
         ArrayList<Refueling> refuelings = new ArrayList<>();
         try {
@@ -121,7 +154,12 @@ public class Database {
         }
         return refuelings;
     }
-
+    
+    /**
+     * Returns a list of refuelings of a specified car
+     * @param car   Car to get refuelings from
+     * @return A list of refuelings
+     */
     public ArrayList<Refueling> getRefuelings(Car car) {
         ArrayList<Refueling> refuelings = new ArrayList<>();
         try {
@@ -141,9 +179,11 @@ public class Database {
 
         return refuelings;
     }
-
+    
+    /**
+     * Clears the database of all cars and refuelings. Used for tests. 
+     */
     public void clear() {
-        // used for tests
         try {
             Statement s = db.createStatement();
             s.execute("DELETE FROM Car");
