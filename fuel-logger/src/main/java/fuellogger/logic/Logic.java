@@ -135,4 +135,14 @@ public class Logic {
         }
         return volume;
     }
+
+    
+    public double costPerMonth(Car car, int month, int year) {
+        ArrayList<Refueling> monthlyrefuelings = refuelingsInMonth(car, month, year);
+        double totalcost = 0;
+        for (Refueling r: monthlyrefuelings) {
+            totalcost = totalcost + r.getCost();
+        }
+        return totalcost;
+    }
 }

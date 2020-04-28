@@ -44,6 +44,10 @@ public class Refueling implements Comparable<Refueling> {
     public double getVolume() {
         return volume;
     }
+    
+    public double getCost() {
+        return this.volume * this.price;
+    }
 
     @Override
     public int compareTo(Refueling t) {

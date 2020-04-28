@@ -19,7 +19,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.Chart;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
@@ -33,7 +32,6 @@ import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -216,7 +214,7 @@ public class GUI extends Application {
         refuelLayout.getChildren().add(refills);
         refuelLayout.getChildren().add(rfAddLayout);
         refuelLayout.getChildren().add(rfGraphsButton);
-        refuelLayout.getChildren().add(carStats());
+        refuelLayout.getChildren().add(carStats(currentCar));
         refuelLayout.setSpacing(10);
 
         rfAddButton.setOnAction((ActionEvent e) -> {
@@ -275,6 +273,9 @@ public class GUI extends Application {
         ChoiceBox cb = new ChoiceBox();
         Label cbLabel = new Label("Select graph:");
         cb.getItems().add("Consumption by month");
+        cb.getItems().add("Cost by month");
+        cb.setValue("Consumption by month");
+        
         Button back = new Button("Back");
 
         LocalDate today = LocalDate.now();
@@ -301,11 +302,23 @@ public class GUI extends Application {
         grLayout.getChildren().add(graphPane);
 
         
-        VBox grBottomLayout = carStats();
+        VBox grBottomLayout = carStats(currentCar);
         grLayout.getChildren().add(grBottomLayout);
 
         yearSelectButton.setOnAction((ActionEvent e) -> {
-            chart = monthChart((int) yearselect.getValue());
+            String value = (String) cb.getValue();
+            switch (value) {
+                case "Consumption by month":
+                    chart = monthChart((int) yearselect.getValue());
+                    break;
+                case "Cost by month":
+                    chart = costChart((int) yearselect.getValue());
+                    break;
+                default:
+                    chart = monthChart((int) yearselect.getValue());
+                    break;
+            }
+            
             graphPane.getChildren().clear();
             graphPane.getChildren().add(chart);
         });
@@ -322,7 +335,7 @@ public class GUI extends Application {
         consYAxis.setLabel("l/100 km");
 
         BarChart<String, Number> consChart = new BarChart<>(consXAxis, consYAxis);
-        consChart.setTitle("Fuel consumption");
+        consChart.setTitle("Fuel consumption by month");
 
         XYChart.Series consData = new XYChart.Series();
 
@@ -334,27 +347,47 @@ public class GUI extends Application {
         consChart.setLegendVisible(false);
         return consChart;
     }
+    
+    private Chart costChart(int year) {
+        CategoryAxis costXAxis = new CategoryAxis();
+        NumberAxis costYAxis = new NumberAxis();
+        costXAxis.setLabel("Month");
+        costYAxis.setLabel("Cost");
+        
+        BarChart<String, Number> costChart = new BarChart<>(costXAxis, costYAxis);
+        costChart.setTitle("Cost by month");
+        
+        XYChart.Series costData = new XYChart.Series();
+        
+        for (int i = 1; i <= 12; i++) {
+            costData.getData().add(new XYChart.Data(getMonthName(i), l.costPerMonth(currentCar, i, year)));
+        }
+        
+        costChart.getData().add(costData);
+        costChart.setLegendVisible(false);
+        return costChart;
+    }
 
-    private VBox carStats() {
+    private VBox carStats(Car car) {
         VBox statsLayout = new VBox();
         Label infoLabel = new Label("Stats:");
 
         Label carNameLabel = new Label();
-        carNameLabel.setText("Car: " + currentCar.getName());
+        carNameLabel.setText("Car: " + car.getName());
 
         Label carTankLabel = new Label();
-        carTankLabel.setText("Fuel tank capacity: " + currentCar.getFuelcapacity() + " litres");
+        carTankLabel.setText("Fuel tank capacity: " + car.getFuelcapacity() + " litres");
 
         Label avgConsLabel = new Label();
-        double avg = l.avgConsumption(currentCar);
+        double avg = l.avgConsumption(car);
         DecimalFormat df = new DecimalFormat("#.##");
         avgConsLabel.setText("Average consumption: " + df.format(avg) + " l/100km");
 
         Label totalVolumeLabel = new Label();
-        totalVolumeLabel.setText("Fuel consumed: " + df.format(l.totalVolume(currentCar)) + " litres");
+        totalVolumeLabel.setText("Fuel consumed: " + df.format(l.totalVolume(car)) + " litres");
 
         Label numOfRefuelingsLabel = new Label();
-        numOfRefuelingsLabel.setText("Refuelings: " + l.numberOfRefuelings(currentCar));
+        numOfRefuelingsLabel.setText("Refuelings: " + l.numberOfRefuelings(car));
 
         statsLayout.setSpacing(5);
         statsLayout.getChildren().addAll(infoLabel, carNameLabel, carTankLabel, avgConsLabel, totalVolumeLabel, numOfRefuelingsLabel);
