@@ -385,12 +385,15 @@ public class GUI extends Application {
 
         Label totalVolumeLabel = new Label();
         totalVolumeLabel.setText("Fuel consumed: " + df.format(l.totalVolume(car)) + " litres");
+        
+        Label totalCostLabel = new Label();
+        totalCostLabel.setText("Total fuel cost: " + df.format(l.totalCost(car)) + " €");
 
         Label numOfRefuelingsLabel = new Label();
         numOfRefuelingsLabel.setText("Refuelings: " + l.numberOfRefuelings(car));
 
         statsLayout.setSpacing(5);
-        statsLayout.getChildren().addAll(infoLabel, carNameLabel, carTankLabel, avgConsLabel, totalVolumeLabel, numOfRefuelingsLabel);
+        statsLayout.getChildren().addAll(infoLabel, carNameLabel, carTankLabel, avgConsLabel, totalVolumeLabel, totalCostLabel, numOfRefuelingsLabel);
         return statsLayout;
     }
 

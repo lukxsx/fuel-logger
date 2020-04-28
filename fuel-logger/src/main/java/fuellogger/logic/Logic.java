@@ -135,6 +135,14 @@ public class Logic {
         }
         return volume;
     }
+    
+    public double totalCost(Car c) {
+        double cost = 0;
+        for (Refueling r: this.refuelings.get(c)) {
+            cost = cost + r.getCost();
+        }
+        return cost;
+    }
 
     
     public double costPerMonth(Car car, int month, int year) {
