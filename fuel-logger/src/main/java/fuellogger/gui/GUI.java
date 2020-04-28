@@ -213,7 +213,7 @@ public class GUI extends Application {
             double pr = Double.valueOf(priceField.getText());
             LocalDate date = dateField.getValue();
             Refueling r = new Refueling(currentCar, odo, vol, pr, date);
-                l.addRefueling(currentCar, r);
+                l.addRefueling(r);
             refuelingData.add(r);
             odField.clear();
             volField.clear();
@@ -374,7 +374,7 @@ public class GUI extends Application {
         carNameLabel.setText("Car: " + car.getName());
 
         Label carTankLabel = new Label();
-        carTankLabel.setText("Fuel tank capacity: " + car.getFuelcapacity() + " litres");
+        carTankLabel.setText("Fuel tank capacity: " + car.getFuelcapacity() + " liters");
 
         Label avgConsLabel = new Label();
         double avg = l.avgConsumption(car);
@@ -382,7 +382,7 @@ public class GUI extends Application {
         avgConsLabel.setText("Average consumption: " + df.format(avg) + " l/100km");
 
         Label totalVolumeLabel = new Label();
-        totalVolumeLabel.setText("Fuel consumed: " + df.format(l.totalVolume(car)) + " litres");
+        totalVolumeLabel.setText("Fuel consumed: " + df.format(l.totalVolume(car)) + " liters");
 
         Label totalCostLabel = new Label();
         totalCostLabel.setText("Total fuel cost: " + df.format(l.totalCost(car)) + " €");
