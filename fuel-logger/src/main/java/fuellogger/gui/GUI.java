@@ -104,7 +104,6 @@ public class GUI extends Application {
             ObservableList<Car> selectedCar = CSselectionModel.getSelectedItems();
             if (!(selectedCar.size() == 0)) {
                 currentCar = selectedCar.get(0);
-                System.out.println(currentCar);
                 try {
                     refuelingsScene = refuelScene(primaryStage);
                 } catch (SQLException ex) {
@@ -124,7 +123,6 @@ public class GUI extends Application {
 
         csAddButton.setOnAction((ActionEvent e) -> {
             Car c = new Car(csNameField.getText(), Integer.valueOf(csFuelCField.getText()));
-            System.out.println(c);
             l.addCar(c);
             carData.add(c);
             csNameField.clear();

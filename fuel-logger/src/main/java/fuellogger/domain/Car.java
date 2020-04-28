@@ -48,9 +48,4 @@ public class Car {
     public int getFuelcapacity() {
         return fuelcapacity;
     }
-    
-    @Override
-    public String toString() {
-        return this.name + " " + this.fuelcapacity + " l";
-    }
 }

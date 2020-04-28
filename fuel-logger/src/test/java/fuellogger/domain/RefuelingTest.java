@@ -42,4 +42,12 @@ public class RefuelingTest {
         Collections.sort(refs);
         assertEquals(true, refs.get(0).odometer == 373020);
     }
+    
+    @Test
+    public void costCalculationTest() {
+        Car c = new Car("Volvo", 80);
+        LocalDate d = LocalDate.of(1029, 11, 18);
+        Refueling r = new Refueling(c, 371014, 66.53, 1.537, d);
+        assertEquals(true, r.getCost() == 102.25661);
+    }
 }

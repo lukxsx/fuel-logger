@@ -20,11 +20,6 @@ public class Refueling implements Comparable<Refueling> {
         this.price = price;
     }
 
-    @Override
-    public String toString() {
-        return car + " " + odometer + " " + volume + " " + date;
-    }
-
     public int getOdometer() {
         return odometer;
     }
