@@ -33,7 +33,7 @@ public class Database {
     /**
     * Adds a Car object to the database.
     * 
-    * @param car A car object to be added
+    * @param car a car object to be added
     * 
     * @return   returns true if car was added successfully to the database
     */
@@ -50,7 +50,7 @@ public class Database {
     
     /**
      * Returns an ArrayList of all cars in the database.
-     * @return A list of cars in the database
+     * @return a list of cars in the database
      */
     public ArrayList<Car> getCars() {
         ArrayList<Car> cars = new ArrayList<>();
@@ -69,8 +69,8 @@ public class Database {
     
     /**
      * Adds a Refueling to the database
-     * @param refueling Refueling object to be added
-     * @return Returns true if adding was successful
+     * @param refueling refueling object to be added
+     * @return returns true if adding was successful
      */
     public boolean addRefueling(Refueling refueling) {
         int carid = getCarId(refueling.car);
@@ -96,8 +96,8 @@ public class Database {
     
     /**
      * Returns id of a car (in the database)
-     * @param car   The car to find the id
-     * @return Returns the id or zero if the car could not be found
+     * @param car   the car to find the id
+     * @return returns the id or zero if the car could not be found
      */
     public int getCarId(Car car) {
         try {
@@ -115,8 +115,8 @@ public class Database {
     
     /**
      * Get a car by it's database id
-     * @param id Id you want to get
-     * @return Returns the car or null if no car with the id could be found
+     * @param id id you want to get
+     * @return returns the car or null if no car with the id could be found
      */
     public Car getCar(int id) {
         try {
@@ -134,7 +134,7 @@ public class Database {
 
     /**
      * Returns a list of all refuelings in the database
-     * @return A list of refuelings
+     * @return list of all refuelings
      */
     public ArrayList<Refueling> getRefuelings() {
         ArrayList<Refueling> refuelings = new ArrayList<>();
@@ -157,8 +157,8 @@ public class Database {
     
     /**
      * Returns a list of refuelings of a specified car
-     * @param car   Car to get refuelings from
-     * @return A list of refuelings
+     * @param car   car to get refuelings from
+     * @return refuelings of a car
      */
     public ArrayList<Refueling> getRefuelings(Car car) {
         ArrayList<Refueling> refuelings = new ArrayList<>();
