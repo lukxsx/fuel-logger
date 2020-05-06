@@ -8,19 +8,19 @@ import java.util.Collections;
 import java.util.HashMap;
 
 /**
- * This class handles all logic behind management of cars and refuelings. It handles also
- * calculations for statistics and charts. 
- * 
+ * This class handles all logic behind management of cars and refuelings. It
+ * handles also calculations for statistics and charts.
+ *
  */
 public class Logic {
 
     private Database db;
-    
+
     /**
      * A list of all locally stored cars
      */
     public ArrayList<Car> cars;
-    
+
     /**
      * Stores refuelings locally
      */
@@ -38,16 +38,20 @@ public class Logic {
 
     /**
      * Adds a car locally and to the database
+     *
      * @param car car to be added
      */
-    public void addCar(Car car) {
+    public boolean addCar(Car car) {
         if (!this.cars.contains(car)) {
-            this.cars.add(car);
-            this.db.addCar(car);
-            if (!this.refuelings.containsKey(car)) {
-                this.refuelings.put(car, new ArrayList<>());
+            if (this.db.addCar(car)) {
+                this.cars.add(car);
+                if (!this.refuelings.containsKey(car)) {
+                    this.refuelings.put(car, new ArrayList<>());
+                }
+                return true;
             }
         }
+        return false;
     }
 
     /**
@@ -59,15 +63,17 @@ public class Logic {
 
     /**
      * Adds a refueling to locally and to the db
+     *
      * @param refueling refueling to be added
      */
     public void addRefueling(Refueling refueling) {
         this.refuelings.get(refueling.car).add(refueling);
         this.db.addRefueling(refueling);
     }
-    
+
     /**
      * Get all refuelings of a specified car
+     *
      * @param car
      * @return a list of refuelings
      */
@@ -77,6 +83,7 @@ public class Logic {
 
     /**
      * Returns all refuelings of a specified car
+     *
      * @param car car to get refuelings from
      * @return a list of refuelings
      */
@@ -86,6 +93,7 @@ public class Logic {
 
     /**
      * Returns the average fuel consumption of a specified car
+     *
      * @param car car to get the avg. consumption
      * @return average consumption of a car
      */
@@ -108,6 +116,7 @@ public class Logic {
 
     /**
      * Returns the last consumption before a specified refueling
+     *
      * @param refueling refueling to get the consumption
      * @return consumption
      */
@@ -129,6 +138,7 @@ public class Logic {
 
     /**
      * Returns the average consumption of a specified month
+     *
      * @param car car to get consumption from
      * @param month month
      * @param year year
@@ -156,10 +166,11 @@ public class Logic {
 
     /**
      * Returns all refuelings from a specified month
+     *
      * @param car car connected to the refuelings
      * @param month month
      * @param year year
-     * @return  list of refuelings by specified month
+     * @return list of refuelings by specified month
      */
     private ArrayList<Refueling> refuelingsInMonth(Car car, int month, int year) {
         ArrayList<Refueling> allrefuelings = getRefuelings(car);
@@ -175,6 +186,7 @@ public class Logic {
 
     /**
      * Returns all driven kilometers from a specified month
+     *
      * @param car car connected to the refuelings
      * @param month month
      * @param year year
@@ -192,6 +204,7 @@ public class Logic {
 
     /**
      * Returns all driven kilometers of a car
+     *
      * @param c car
      * @return driven kilometers
      */
@@ -207,6 +220,7 @@ public class Logic {
 
     /**
      * Returns the amount of refuelings in the database per car
+     *
      * @param c car
      * @return amount of refuelings
      */
@@ -216,6 +230,7 @@ public class Logic {
 
     /**
      * Returns the total amount of fuel consumed in liters
+     *
      * @param c car
      * @return consumed fuel in liters
      */
@@ -229,6 +244,7 @@ public class Logic {
 
     /**
      * Returns the total cost of all refuelings
+     *
      * @param c car
      * @return total cost
      */
@@ -242,6 +258,7 @@ public class Logic {
 
     /**
      * Returns the cost of refuelings by month
+     *
      * @param car car
      * @param month month
      * @param year year

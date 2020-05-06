@@ -8,6 +8,7 @@ import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.function.UnaryOperator;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +28,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -35,11 +38,23 @@ import javafx.stage.Stage;
 public class GUI extends Application {
 
     private Logic l;
-    Scene refuelingsScene;
-    Scene carSelectScene;
-    Scene graphScene;
-    Car currentCar;
-    Chart chart;
+    private Scene refuelingsScene;
+    private Scene carSelectScene;
+    private Scene graphScene;
+    private Car currentCar;
+    private Chart chart;
+
+    private UnaryOperator<Change> integerFilter = change -> {
+        String text = change.getText();
+
+        if (text.matches("[0-9]*")) {
+            return change;
+        }
+
+        return null;
+    };
+
+    private TextFormatter<String> integerFormatter = new TextFormatter<>(integerFilter);
 
     @Override
     public void start(Stage primaryStage) {
@@ -113,10 +128,17 @@ public class GUI extends Application {
         csFuelCField.setPromptText("Fuel capacity");
         Button csAddButton = new Button("Add");
 
+        csFuelCField.setTextFormatter(integerFormatter);
+
         csAddButton.setOnAction((ActionEvent e) -> {
-            Car c = new Car(csNameField.getText(), Integer.valueOf(csFuelCField.getText()));
-            l.addCar(c);
-            carData.add(c);
+            if (!(csNameField.getText().isBlank()) && !(csFuelCField.getText().isBlank())) {
+
+                Car c = new Car(csNameField.getText(), Integer.valueOf(csFuelCField.getText()));
+                if (l.addCar(c)) {
+                    carData.add(c);
+
+                }
+            }
             csNameField.clear();
             csFuelCField.clear();
         });
@@ -213,19 +235,19 @@ public class GUI extends Application {
             double pr = Double.valueOf(priceField.getText());
             LocalDate date = dateField.getValue();
             Refueling r = new Refueling(currentCar, odo, vol, pr, date);
-                l.addRefueling(r);
+            l.addRefueling(r);
             refuelingData.add(r);
             odField.clear();
             volField.clear();
             dateField.getEditor().clear();
             rfAvgConsumption.setText("Average consumption: " + df.format(avg) + " l/100km");
-                this.refuelingsScene = refuelScene(primaryStage);
-                primaryStage.setScene(refuelingsScene);
+            this.refuelingsScene = refuelScene(primaryStage);
+            primaryStage.setScene(refuelingsScene);
 
         });
 
         rfGraphsButton.setOnAction((ActionEvent e) -> {
-                graphScene = graphsScene(primaryStage);
+            graphScene = graphsScene(primaryStage);
             primaryStage.setScene(graphScene);
         });
 
