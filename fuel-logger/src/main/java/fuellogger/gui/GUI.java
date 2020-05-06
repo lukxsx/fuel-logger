@@ -230,13 +230,16 @@ public class GUI extends Application {
         refuelLayout.setSpacing(10);
 
         rfAddButton.setOnAction((ActionEvent e) -> {
-            int odo = Integer.valueOf(odField.getText());
-            double vol = Double.valueOf(volField.getText());
-            double pr = Double.valueOf(priceField.getText());
-            LocalDate date = dateField.getValue();
-            Refueling r = new Refueling(currentCar, odo, vol, pr, date);
-            l.addRefueling(r);
-            refuelingData.add(r);
+            if (!odField.getText().isBlank() && !volField.getText().isBlank()
+                    && !priceField.getText().isBlank()) {
+                int odo = Integer.valueOf(odField.getText());
+                double vol = Double.valueOf(volField.getText());
+                double pr = Double.valueOf(priceField.getText());
+                LocalDate date = dateField.getValue();
+                Refueling r = new Refueling(currentCar, odo, vol, pr, date);
+                l.addRefueling(r);
+                refuelingData.add(r);
+            }
             odField.clear();
             volField.clear();
             dateField.getEditor().clear();
