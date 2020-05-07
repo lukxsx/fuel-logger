@@ -14,6 +14,8 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -25,6 +27,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
@@ -34,6 +37,9 @@ import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
@@ -85,8 +91,10 @@ public class GUI extends Application {
         *
          */
         VBox carSelectLayout = new VBox();
+        carSelectLayout.setPadding(new Insets(10));
         
         Label carSelectInfo = new Label("Select a car to use");
+        carSelectInfo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 18));
         carSelectLayout.getChildren().add(carSelectInfo);
 
         // tableview for car selection
@@ -144,6 +152,7 @@ public class GUI extends Application {
         });
         
         Label csAddInfo = new Label("Add a new car");
+        csAddInfo.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 18));
         HBox csAddLayout = new HBox();
         csAddLayout.getChildren().addAll(csNameField, csFuelCField, csAddButton);
         csAddLayout.setSpacing(5);
@@ -152,6 +161,8 @@ public class GUI extends Application {
         carSelectLayout.setSpacing(10);
         carSelectLayout.getChildren().add(carSelect);
         carSelectLayout.getChildren().add(csSelectButton);
+        Separator separator = new Separator(Orientation.HORIZONTAL);
+        carSelectLayout.getChildren().add(separator);
         carSelectLayout.getChildren().add(csAddInfo);
         carSelectLayout.getChildren().add(csAddLayout);
         
@@ -167,22 +178,22 @@ public class GUI extends Application {
          */
         
         VBox refuelLayout = new VBox();
+        refuelLayout.setPadding(new Insets(10));
         
         HBox refuelTopLayout = new HBox();
         refuelTopLayout.setSpacing(20);
         
         Label rfCarLabel = new Label();
         rfCarLabel.setText("Selected car: " + currentCar.getName());
-        
-        Label rfAvgConsumption = new Label();
-        double avg = l.avgConsumption(currentCar);
-        DecimalFormat df = new DecimalFormat("#.##");
-        rfAvgConsumption.setText("Average consumption: " + df.format(avg) + " l/100km    Refuelings: " + l.numberOfRefuelings(currentCar));
-        refuelTopLayout.getChildren().add(rfCarLabel);
-        refuelTopLayout.getChildren().add(rfAvgConsumption);
-        
+        rfCarLabel.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 18));
         Button back = new Button("Car selection");
+        
+        refuelTopLayout.getChildren().add(rfCarLabel);
+        Separator s1 = new Separator(Orientation.VERTICAL);
+             refuelTopLayout.getChildren().add(s1);
         refuelTopLayout.getChildren().add(back);
+        Button rfGraphsButton = new Button("Charts");
+        refuelTopLayout.getChildren().add(rfGraphsButton);
         
         TableView refills = new TableView();
         refills.setEditable(true);
@@ -191,10 +202,12 @@ public class GUI extends Application {
         rfOdometerColumn.setCellValueFactory(new PropertyValueFactory<>("odometer"));
         TableColumn<Double, Refueling> rfVolumeColumn = new TableColumn("Volume");
         rfVolumeColumn.setCellValueFactory(new PropertyValueFactory<>("volume"));
+        TableColumn<Double, Refueling> rfPriceColumn = new TableColumn("Price");
+        rfPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         TableColumn<LocalDate, Refueling> rfDateColumn = new TableColumn("Date");
         rfDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         
-        refills.getColumns().addAll(rfOdometerColumn, rfVolumeColumn, rfDateColumn);
+        refills.getColumns().addAll(rfOdometerColumn, rfVolumeColumn, rfPriceColumn, rfDateColumn);
 
         // date for table
         ObservableList<Refueling> refuelingData = FXCollections.observableArrayList();
@@ -223,12 +236,13 @@ public class GUI extends Application {
         rfAddLayout.setSpacing(10);
         rfAddLayout.getChildren().addAll(odField, volField, priceField, dateField, rfAddButton);
         
-        Button rfGraphsButton = new Button("Charts");
+        
         
         refuelLayout.getChildren().add(refuelTopLayout);
         refuelLayout.getChildren().add(refills);
+        Separator s2 = new Separator(Orientation.HORIZONTAL);
         refuelLayout.getChildren().add(rfAddLayout);
-        refuelLayout.getChildren().add(rfGraphsButton);
+        refuelLayout.getChildren().add(s2);
         refuelLayout.getChildren().add(carStats(currentCar));
         refuelLayout.setSpacing(10);
         
@@ -248,7 +262,6 @@ public class GUI extends Application {
             odField.clear();
             volField.clear();
             dateField.getEditor().clear();
-            rfAvgConsumption.setText("Average consumption: " + df.format(avg) + " l/100km");
             this.refuelingsScene = refuelScene(primaryStage);
             primaryStage.setScene(refuelingsScene);
             
@@ -277,6 +290,7 @@ public class GUI extends Application {
         
         HBox graphsTop = new HBox();
         graphsTop.setSpacing(15);
+        graphsTop.setPadding(new Insets(5));
         
         ChoiceBox cb = new ChoiceBox();
         Label cbLabel = new Label("Select graph:");
@@ -296,6 +310,7 @@ public class GUI extends Application {
         Button yearSelectButton = new Button("Select");
         
         VBox grLayout = new VBox();
+        grLayout.setPadding(new Insets(10));
         graphsTop.getChildren().addAll(back, cbLabel, cb, yearselect, yearSelectButton);
         
         back.setOnAction((ActionEvent e) -> {
@@ -303,6 +318,8 @@ public class GUI extends Application {
         });
         
         grLayout.getChildren().add(graphsTop);
+        Separator s2 = new Separator(Orientation.HORIZONTAL);
+        grLayout.getChildren().add(s2);
         
         VBox graphPane = new VBox();
         
@@ -311,6 +328,8 @@ public class GUI extends Application {
         grLayout.getChildren().add(graphPane);
         
         VBox grBottomLayout = carStats(currentCar);
+        Separator s = new Separator(Orientation.HORIZONTAL);
+        grLayout.getChildren().add(s);
         grLayout.getChildren().add(grBottomLayout);
         
         yearSelectButton.setOnAction((ActionEvent e) -> {
@@ -398,7 +417,8 @@ public class GUI extends Application {
     
     private VBox carStats(Car car) {
         VBox statsLayout = new VBox();
-        Label infoLabel = new Label("Stats:");
+        Label infoLabel = new Label("Statistics");
+        infoLabel.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 18));
         
         Label carNameLabel = new Label();
         carNameLabel.setText("Car: " + car.getName());
