@@ -460,7 +460,7 @@ public class GUI extends Application {
         totalKmsLabel.setText("Total driven kilometers: " + sm.totalKms(car) + " km");
 
         Label numOfRefuelingsLabel = new Label();
-        numOfRefuelingsLabel.setText("Refuelings: " + sm.numberOfRefuelings(car));
+        numOfRefuelingsLabel.setText("Refuelings: " + rm.numberOfRefuelings(car));
 
         statsLayout.setSpacing(5);
         statsLayout.getChildren().addAll(infoLabel, carNameLabel, carTankLabel,

@@ -61,7 +61,7 @@ public class StatisticsManager {
      * @return average consumption by month
      */
     public double monthAvg(Car car, int month, int year) {
-        ArrayList<Refueling> monthlyrefuelings = refuelingsInMonth(car, month, year);
+        ArrayList<Refueling> monthlyrefuelings = rm.refuelingsInMonth(car, month, year);
 
         double sum = 0;
         int counter = 0;
@@ -81,26 +81,6 @@ public class StatisticsManager {
     }
 
     /**
-     * Returns all refuelings from a specified month
-     *
-     * @param car car connected to the refuelings
-     * @param month month
-     * @param year year
-     * @return list of refuelings by specified month
-     */
-    private ArrayList<Refueling> refuelingsInMonth(Car car, int month, int year) {
-        ArrayList<Refueling> allrefuelings = rm.getRefuelings(car);
-        ArrayList<Refueling> valid = new ArrayList<>();
-
-        for (Refueling r : allrefuelings) {
-            if (r.getDate().getMonthValue() == month && r.getDate().getYear() == year) {
-                valid.add(r);
-            }
-        }
-        return valid;
-    }
-
-    /**
      * Returns all driven kilometers from a specified month
      *
      * @param car car connected to the refuelings
@@ -109,7 +89,7 @@ public class StatisticsManager {
      * @return driven kilometers by month
      */
     public int kmsInMonth(Car car, int month, int year) {
-        ArrayList<Refueling> monthlyrefuelings = refuelingsInMonth(car, month, year);
+        ArrayList<Refueling> monthlyrefuelings = rm.refuelingsInMonth(car, month, year);
         if (monthlyrefuelings.isEmpty()) {
             return 0;
         }
@@ -135,15 +115,7 @@ public class StatisticsManager {
         return last - first;
     }
 
-    /**
-     * Returns the amount of refuelings in the database per car
-     *
-     * @param c car
-     * @return amount of refuelings
-     */
-    public int numberOfRefuelings(Car c) {
-        return rm.getRefuelings(c).size();
-    }
+  
 
     /**
      * Returns the total amount of fuel consumed in liters
@@ -182,7 +154,7 @@ public class StatisticsManager {
      * @return cost per month
      */
     public double costPerMonth(Car car, int month, int year) {
-        ArrayList<Refueling> monthlyrefuelings = refuelingsInMonth(car, month, year);
+        ArrayList<Refueling> monthlyrefuelings = rm.refuelingsInMonth(car, month, year);
         double totalcost = 0;
         for (Refueling r : monthlyrefuelings) {
             totalcost = totalcost + r.getCost();

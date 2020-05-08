@@ -83,4 +83,34 @@ public class RefuelManager {
     public ArrayList<Refueling> getRefuelings(Car car) {
         return this.refuelings.get(car);
     }
+    
+    /**
+     * Returns all refuelings from a specified month
+     *
+     * @param car car connected to the refuelings
+     * @param month month
+     * @param year year
+     * @return list of refuelings by specified month
+     */
+    public ArrayList<Refueling> refuelingsInMonth(Car car, int month, int year) {
+        ArrayList<Refueling> allrefuelings = getRefuelings(car);
+        ArrayList<Refueling> valid = new ArrayList<>();
+
+        for (Refueling r : allrefuelings) {
+            if (r.getDate().getMonthValue() == month && r.getDate().getYear() == year) {
+                valid.add(r);
+            }
+        }
+        return valid;
+    }
+    
+      /**
+     * Returns the amount of refuelings in the database per car
+     *
+     * @param c car
+     * @return amount of refuelings
+     */
+    public int numberOfRefuelings(Car c) {
+        return getRefuelings(c).size();
+    }
 }
