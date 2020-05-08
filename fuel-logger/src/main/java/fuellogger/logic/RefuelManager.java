@@ -6,6 +6,10 @@ import fuellogger.domain.Refueling;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+/**
+ * This class manages the Car and Refueling classes.
+ */
 public class RefuelManager {
 
     private Database db;

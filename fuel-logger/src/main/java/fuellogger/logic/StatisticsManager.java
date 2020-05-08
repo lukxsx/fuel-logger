@@ -6,6 +6,10 @@ import fuellogger.domain.Refueling;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
+/**
+ * This class calculates and generates statistics to be used in charts and GUI.
+ */
 public class StatisticsManager {
     private RefuelManager rm;
     
