@@ -1,8 +1,10 @@
 package fuellogger.gui;
 
+import fuellogger.dao.Database;
 import fuellogger.domain.Car;
-import fuellogger.logic.Logic;
 import fuellogger.domain.Refueling;
+import fuellogger.logic.RefuelManager;
+import fuellogger.logic.StatisticsManager;
 
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
@@ -44,7 +46,8 @@ import javafx.stage.Stage;
 
 public class GUI extends Application {
 
-    private Logic l;
+    private RefuelManager rm;
+    private StatisticsManager sm;
     private Scene refuelingsScene;
     private Scene carSelectScene;
     private Scene graphScene;
@@ -64,7 +67,9 @@ public class GUI extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        l = new Logic("database.db");
+        Database d = new Database("database.db");
+        this.rm = new RefuelManager(d);
+        this.sm = new StatisticsManager(rm);
         this.currentCar = null;
         // window settings
         primaryStage.setHeight(1024);
@@ -108,7 +113,7 @@ public class GUI extends Application {
         ObservableList<Car> carData = FXCollections.observableArrayList();
 
         // get cars from the database
-        ArrayList<Car> cars = l.cars;
+        ArrayList<Car> cars = rm.cars;
         for (Car c : cars) {
             carData.add(c);
         }
@@ -141,7 +146,7 @@ public class GUI extends Application {
             if (!(csNameField.getText().isBlank()) && !(csFuelCField.getText().isBlank())) {
 
                 Car c = new Car(csNameField.getText(), Integer.valueOf(csFuelCField.getText()));
-                if (l.addCar(c)) {
+                if (rm.addCar(c)) {
                     carData.add(c);
                     csNameField.clear();
                     csFuelCField.clear();
@@ -219,7 +224,7 @@ public class GUI extends Application {
         ObservableList<Refueling> refuelingData = FXCollections.observableArrayList();
 
         // get refuelings from the database
-        ArrayList<Refueling> ref = l.refuelings.get(currentCar);
+        ArrayList<Refueling> ref = rm.getRefuelings(currentCar);
         for (Refueling r : ref) {
             refuelingData.add(r);
         }
@@ -260,7 +265,7 @@ public class GUI extends Application {
                     LocalDate date = dateField.getValue();
 
                     Refueling r = new Refueling(currentCar, odo, vol, pr, date);
-                    l.addRefueling(r);
+                    rm.addRefueling(r);
                     refuelingData.add(r);
                 } else {
                     Alert error = new Alert(AlertType.ERROR);
@@ -381,7 +386,7 @@ public class GUI extends Application {
         XYChart.Series consData = new XYChart.Series();
 
         for (int i = 1; i <= 12; i++) {
-            consData.getData().add(new XYChart.Data(getMonthName(i), l.monthAvg(currentCar, i, year)));
+            consData.getData().add(new XYChart.Data(getMonthName(i), sm.monthAvg(currentCar, i, year)));
         }
 
         consChart.getData().add(consData);
@@ -401,7 +406,7 @@ public class GUI extends Application {
         XYChart.Series costData = new XYChart.Series();
 
         for (int i = 1; i <= 12; i++) {
-            costData.getData().add(new XYChart.Data(getMonthName(i), l.costPerMonth(currentCar, i, year)));
+            costData.getData().add(new XYChart.Data(getMonthName(i), sm.costPerMonth(currentCar, i, year)));
         }
 
         costChart.getData().add(costData);
@@ -421,7 +426,7 @@ public class GUI extends Application {
         XYChart.Series kmsData = new XYChart.Series();
 
         for (int i = 1; i <= 12; i++) {
-            kmsData.getData().add(new XYChart.Data(getMonthName(i), l.kmsInMonth(currentCar, i, year)));
+            kmsData.getData().add(new XYChart.Data(getMonthName(i), sm.kmsInMonth(currentCar, i, year)));
         }
 
         kmsChart.getData().add(kmsData);
@@ -441,21 +446,21 @@ public class GUI extends Application {
         carTankLabel.setText("Fuel tank capacity: " + car.getFuelcapacity() + " liters");
 
         Label avgConsLabel = new Label();
-        double avg = l.avgConsumption(car);
+        double avg = sm.avgConsumption(car);
         DecimalFormat df = new DecimalFormat("#.##");
         avgConsLabel.setText("Average consumption: " + df.format(avg) + " l/100km");
 
         Label totalVolumeLabel = new Label();
-        totalVolumeLabel.setText("Fuel consumed: " + df.format(l.totalVolume(car)) + " liters");
+        totalVolumeLabel.setText("Fuel consumed: " + df.format(sm.totalVolume(car)) + " liters");
 
         Label totalCostLabel = new Label();
-        totalCostLabel.setText("Total fuel cost: " + df.format(l.totalCost(car)) + " €");
+        totalCostLabel.setText("Total fuel cost: " + df.format(sm.totalCost(car)) + " €");
 
         Label totalKmsLabel = new Label();
-        totalKmsLabel.setText("Total driven kilometers: " + l.totalKms(car) + " km");
+        totalKmsLabel.setText("Total driven kilometers: " + sm.totalKms(car) + " km");
 
         Label numOfRefuelingsLabel = new Label();
-        numOfRefuelingsLabel.setText("Refuelings: " + l.numberOfRefuelings(car));
+        numOfRefuelingsLabel.setText("Refuelings: " + sm.numberOfRefuelings(car));
 
         statsLayout.setSpacing(5);
         statsLayout.getChildren().addAll(infoLabel, carNameLabel, carTankLabel,

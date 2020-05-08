@@ -1,104 +1,20 @@
+
 package fuellogger.logic;
 
-import fuellogger.dao.Database;
 import fuellogger.domain.Car;
 import fuellogger.domain.Refueling;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
-/**
- * This class handles all logic behind management of cars and refuelings. It
- * handles also calculations for statistics and charts.
- *
- */
-public class Logic {
-
-    private Database db;
-
-    /**
-     * A list of all locally stored cars
-     */
-    public ArrayList<Car> cars;
-
-    /**
-     * Stores refuelings locally
-     */
-    public HashMap<Car, ArrayList<Refueling>> refuelings;
-
-    public Logic(String database) {
-        this.db = new Database(database);
-        this.cars = db.getCars();
-        this.refuelings = new HashMap<>();
-        for (Car c : this.cars) {
-            this.refuelings.put(c, getRefuelingsFromDB(c));
-        }
-
+public class StatisticsManager {
+    private RefuelManager rm;
+    
+    public StatisticsManager(RefuelManager rm) {
+        this.rm = rm;
     }
-
-    /**
-     * Adds a car locally and to the database
-     *
-     * @param car car to be added
-     */
-    public boolean addCar(Car car) {
-        if (!this.cars.contains(car)) {
-            if (this.db.addCar(car)) {
-                this.cars.add(car);
-                if (!this.refuelings.containsKey(car)) {
-                    this.refuelings.put(car, new ArrayList<>());
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Clears the database (used for tests)
-     */
-    public void clearDB() {
-        db.clear();
-    }
-
-    /**
-     * Adds a refueling to locally and to the db
-     *
-     * @param refueling refueling to be added
-     */
-    public void addRefueling(Refueling refueling) {
-        this.refuelings.get(refueling.car).add(refueling);
-        this.db.addRefueling(refueling);
-    }
-
-    /**
-     * Get all refuelings of a specified car
-     *
-     * @param car
-     * @return a list of refuelings
-     */
-    private ArrayList<Refueling> getRefuelingsFromDB(Car car) {
-        return db.getRefuelings(car);
-    }
-
-    /**
-     * Returns all refuelings of a specified car
-     *
-     * @param car car to get refuelings from
-     * @return a list of refuelings
-     */
-    public ArrayList<Refueling> getRefuelings(Car car) {
-        return this.refuelings.get(car);
-    }
-
-    /**
-     * Returns the average fuel consumption of a specified car
-     *
-     * @param car car to get the avg. consumption
-     * @return average consumption of a car
-     */
-    public double avgConsumption(Car car) {
-        ArrayList<Refueling> refs = this.refuelings.get(car);
+    
+        public double avgConsumption(Car car) {
+        ArrayList<Refueling> refs = rm.getRefuelings(car);
         if (refs.isEmpty() || refs.size() == 1) {
             return 0;
         }
@@ -121,7 +37,7 @@ public class Logic {
      * @return consumption
      */
     public double getConsumption(Refueling refueling) {
-        ArrayList<Refueling> refs = this.refuelings.get(refueling.car);
+        ArrayList<Refueling> refs = rm.getRefuelings(refueling.car);
         Collections.sort(refs);
         int index = refs.indexOf(refueling);
         if (index == refs.size() - 1) {
@@ -173,7 +89,7 @@ public class Logic {
      * @return list of refuelings by specified month
      */
     private ArrayList<Refueling> refuelingsInMonth(Car car, int month, int year) {
-        ArrayList<Refueling> allrefuelings = getRefuelings(car);
+        ArrayList<Refueling> allrefuelings = rm.getRefuelings(car);
         ArrayList<Refueling> valid = new ArrayList<>();
 
         for (Refueling r : allrefuelings) {
@@ -209,12 +125,13 @@ public class Logic {
      * @return driven kilometers
      */
     public int totalKms(Car c) {
-        if (refuelings.get(c).isEmpty()) {
+        ArrayList<Refueling> refuelings = rm.getRefuelings(c);
+        if (refuelings.isEmpty()) {
             return 0;
         }
-        Collections.sort(refuelings.get(c));
-        int first = refuelings.get(c).get(0).getOdometer();
-        int last = refuelings.get(c).get(refuelings.get(c).size() - 1).getOdometer();
+        Collections.sort(refuelings);
+        int first = refuelings.get(0).getOdometer();
+        int last = refuelings.get(refuelings.size() - 1).getOdometer();
         return last - first;
     }
 
@@ -225,7 +142,7 @@ public class Logic {
      * @return amount of refuelings
      */
     public int numberOfRefuelings(Car c) {
-        return this.refuelings.get(c).size();
+        return rm.getRefuelings(c).size();
     }
 
     /**
@@ -236,7 +153,7 @@ public class Logic {
      */
     public double totalVolume(Car c) {
         double volume = 0;
-        for (Refueling r : this.refuelings.get(c)) {
+        for (Refueling r : rm.getRefuelings(c)) {
             volume = volume + r.getVolume();
         }
         return volume;
@@ -250,7 +167,7 @@ public class Logic {
      */
     public double totalCost(Car c) {
         double cost = 0;
-        for (Refueling r : this.refuelings.get(c)) {
+        for (Refueling r : rm.getRefuelings(c)) {
             cost = cost + r.getCost();
         }
         return cost;
