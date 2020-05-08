@@ -143,11 +143,16 @@ public class GUI extends Application {
                 Car c = new Car(csNameField.getText(), Integer.valueOf(csFuelCField.getText()));
                 if (l.addCar(c)) {
                     carData.add(c);
-
+                    csNameField.clear();
+                    csFuelCField.clear();
                 }
+            } else {
+                Alert error = new Alert(AlertType.ERROR);
+                error.setTitle("Error");
+                error.setContentText("Invalid or blank input");
+                error.showAndWait();
             }
-            csNameField.clear();
-            csFuelCField.clear();
+
         });
 
         Label csAddInfo = new Label("Add a new car");

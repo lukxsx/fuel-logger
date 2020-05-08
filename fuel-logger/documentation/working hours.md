@@ -10,4 +10,6 @@
 | 21.4. | 3    | monthly fuel consumption chart, added more tests, release |
 | 25.4. | 0.5  | fixes, helper methods to logic class |
 | 28.4. | 4    | monthly cost chart, monthly kilometer chart, javadocs, release |
-| total | 23.5 |  |
+| 6.5.  | 0.5  | validations on input dialogs |
+| 7.5.  | 0.5  | more validations on input dialogs |
+| total | 24.5 |  |
