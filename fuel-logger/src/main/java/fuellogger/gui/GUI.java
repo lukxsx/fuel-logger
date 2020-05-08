@@ -1,5 +1,6 @@
 package fuellogger.gui;
 
+import fuellogger.dao.ConfigFile;
 import fuellogger.dao.Database;
 import fuellogger.domain.Car;
 import fuellogger.domain.Refueling;
@@ -46,6 +47,7 @@ import javafx.stage.Stage;
 
 public class GUI extends Application {
 
+    private Alert fileReadAlert;
     private RefuelManager rm;
     private StatisticsManager sm;
     private Scene refuelingsScene;
@@ -66,11 +68,16 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
-        Database d = new Database("database.db");
+        ConfigFile config = new ConfigFile();
+        String dbname = config.getDbname();
+        
+        Database d = new Database(dbname);
+        
         this.rm = new RefuelManager(d);
         this.sm = new StatisticsManager(rm);
+        
         this.currentCar = null;
+        
         // window settings
         primaryStage.setHeight(1024);
         primaryStage.setWidth(800);
