@@ -1,4 +1,3 @@
-
 package fuellogger.logic;
 
 import fuellogger.domain.Car;
@@ -6,18 +5,18 @@ import fuellogger.domain.Refueling;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 /**
  * This class calculates and generates statistics to be used in charts and GUI.
  */
 public class StatisticsManager {
+
     private RefuelManager rm;
-    
+
     public StatisticsManager(RefuelManager rm) {
         this.rm = rm;
     }
-    
-        public double avgConsumption(Car car) {
+
+    public double avgConsumption(Car car) {
         ArrayList<Refueling> refs = rm.getRefuelings(car);
         if (refs.isEmpty() || refs.size() == 1) {
             return 0;
@@ -118,8 +117,6 @@ public class StatisticsManager {
         int last = refuelings.get(refuelings.size() - 1).getOdometer();
         return last - first;
     }
-
-  
 
     /**
      * Returns the total amount of fuel consumed in liters

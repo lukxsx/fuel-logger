@@ -24,21 +24,21 @@ public class ConfigFile {
         p = new Properties();
         this.dbname = "database.db"; // default name if config file fails 
 
-
         // load properties if file exists, create new file if needed
-            try {
-                p.load(new FileInputStream(filename));
-                this.dbname = p.getProperty("dbname");
-            } catch (FileNotFoundException ex) {
-                newConfigFile(); // if file not found, create a new config file
-            } catch (IOException ex) {
-                Logger.getLogger(ConfigFile.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            p.load(new FileInputStream(filename));
+            this.dbname = p.getProperty("dbname");
+        } catch (FileNotFoundException ex) {
+            newConfigFile(); // if file not found, create a new config file
+        } catch (IOException ex) {
+            Logger.getLogger(ConfigFile.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
     /**
      * Returns the database name to be used
+     *
      * @return the name of the database file
      */
     public String getDbname() {
