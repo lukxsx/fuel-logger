@@ -71,7 +71,7 @@ public class GUI extends Application {
         String dbname = config.getDbname();
 
         Database d = new Database(dbname);
-
+        
         this.rm = new RefuelManager(d);
         this.sm = new StatisticsManager(rm);
 
