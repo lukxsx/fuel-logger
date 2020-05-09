@@ -9,19 +9,19 @@ import java.util.Properties;
 
 /**
  * This class reads the config file and creates it if needed
- * 
+ *
  */
 public class ConfigFile {
 
     private String dbname;
     private Properties p;
 
-    public ConfigFile() {
+    public ConfigFile(String filename) {
         p = new Properties();
         this.dbname = "database.db"; // default name if config file fails 
 
-        File config = new File("config.conf");
-        
+        File config = new File(filename);
+
         // load properties if file exists
         if (config.exists()) {
             try {
@@ -33,6 +33,7 @@ public class ConfigFile {
                 // in case it fails, it will use the default value
             }
         } else {
+
             // if config file doesn't exist, create one with default values
             try {
                 PrintWriter writer = new PrintWriter(config);
@@ -42,6 +43,7 @@ public class ConfigFile {
                 // if fails in any case, use the default value specified 
             }
         }
+
     }
 
     public String getDbname() {

@@ -47,7 +47,6 @@ import javafx.stage.Stage;
 
 public class GUI extends Application {
 
-    private Alert fileReadAlert;
     private RefuelManager rm;
     private StatisticsManager sm;
     private Scene refuelingsScene;
@@ -68,16 +67,16 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        ConfigFile config = new ConfigFile();
+        ConfigFile config = new ConfigFile("fuellogger.conf");
         String dbname = config.getDbname();
-        
+
         Database d = new Database(dbname);
-        
+
         this.rm = new RefuelManager(d);
         this.sm = new StatisticsManager(rm);
-        
+
         this.currentCar = null;
-        
+
         // window settings
         primaryStage.setHeight(1024);
         primaryStage.setWidth(800);
