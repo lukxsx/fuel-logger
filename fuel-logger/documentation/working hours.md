@@ -13,4 +13,5 @@
 | 6.5.  | 0.5  | validations on input dialogs |
 | 7.5.  | 0.5  | more validations on input dialogs, improved appearance |
 | 8.5.  | 2    | config file, separate logic classes, error dialogs |
-| total | 26.5 |  |
+| 9.5   | 2    | more tests, documentation |
+| total | 28.5 |  |
