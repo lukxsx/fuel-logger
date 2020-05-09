@@ -12,6 +12,7 @@ __HUOM!__ Tarkastajille tietoksi: *Cubblin virtuaalityöasemassa on ollut ongelm
 * [User manual](fuel-logger/documentation/user-manual.md)
 * [Architecture](fuel-logger/documentation/architecture.md)
 * [Working hours](fuel-logger/documentation/working%20hours.md)
+* [Testing report](fuel-logger/documentation/testing.md)
 
 ## Commands
 

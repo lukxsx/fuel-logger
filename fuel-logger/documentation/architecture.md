@@ -9,26 +9,29 @@ views and charts.
 * _fuellogger.domain_ contains the Car and Refueling classes that are
 used to store information in the application.
 * _fuellogger.dao_ contains classes used to save data into the hard
-disk. (SQLite database)
+disk. (SQLite database and config file)
 
 ## Application logic
-Application logic is implemented with the _Logic_ class. The application
-logic consists of storing and managing the _Car_ and _Refueling_ objects
-and performing calculations to generate statistics to be displayed in
-the graphical user interface.
+Application logic is implemented with the _RefuelManager_ and
+_StatisticsManager_ classes. 
+* __RefuelManager__ manages and stores cars and refuelings. It also
+uses _Database_ class to store data to the database. 
+	* Adding a car
+	* Listing of cars
+	* Adding a refueling
+	* Listing of refuelings
+	* Listing of refuelings by month and year
+* __StatisticsManager__ performs calculations to be displayed in the
+graphical 
+	* Getting statistics of a car
+	* Getting statistics of refuelings
+	* Output data to generate charts in the GUI
 
-### Functions of the logic class
-* Adding a car
-* Listing of cars
-* Adding a refueling
-* Listing of refuelings
-* Getting statistics of a car
-* Getting statistics of refuelings
-* Output data to generate charts in the GUI
 
-Logic class uses _Car_ and _Refueling_ classes from _fuellogger.domain_
-package to store the information locally. It uses _Database_ class from
-_fuellogger.dao_ package to save the data to a SQLite database. 
+Logic classes use the _Car_ and _Refueling_ classes from _fuellogger.domain_
+package to store the information locally. _RefuelingManager_ uses 
+_Database_ class from _fuellogger.dao_ package to save the data to a
+SQLite database. 
 
 ![logic](logic.png)
 
@@ -36,11 +39,11 @@ _fuellogger.dao_ package to save the data to a SQLite database.
 ![car adding sequence](caraddseq.png)
 
 User inserts car's details in fields and clicks car adding button. 
-A new car object is created and addCar() method in Logic class is
-called. Logic object adds car in it's local arraylist of cars and calls
-Database objects addCar() method. Databases addCar() tries to insert car
-into the database, if the insertion is success it returns true. The
-created car object is added to GUIs observablelist.
+A new car object is created and addCar() method in RefuelingManager
+class is called. Logic object adds car in it's local arraylist of cars
+and calls Database objects addCar() method. Databases addCar() tries to
+insert car into the database, if the insertion is success it returns
+true. The created car object is added to GUIs observablelist.
 
 ## Class diagram
 ![diagram](class%20diagram.png)

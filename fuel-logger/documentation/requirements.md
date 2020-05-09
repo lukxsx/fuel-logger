@@ -31,10 +31,6 @@ need for them.
 ## Limitations
 * Only works when tank is filled full, no partial refuelings
 * Min. 2 refuelings needed to count fuel consumptions
-* Must work on all common platforms supported by Java and JavaFX
-(Linux, macOS and Windows)
+* Must work on common Linux distributions
 * Only supports SI units and euros
 * Data is saved locally
-
-## UI draft
-![UI draft](https://raw.githubusercontent.com/Lukxsx/ot-harjoitustyo/master/fuel-logger/documentation/ui%20draft.jpg)

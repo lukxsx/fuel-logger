@@ -6,8 +6,17 @@
 ```java -jar fuel-logger-1.0-SNAPSHOT.jar```
 or ```java -jar fuel-logger.jar``` depending on the filename. 
 
+## Configuration
 The application generates automatically database file called
-_database.db_ to the folder from which it is executed.
+_database.db_ and a config file _fuellogger.conf_ into the folder from
+which it is executed. There is no need to configure the software in
+normal use use but if desired, the user can change the database file
+used using the _fuellogger.conf_ file. 
+
+The config file looks like this
+```dbname=database.db```
+The database name can be changed by changing _database.db_ to some other
+name. 
 
 ## Usage
 All data inserted to the application is automatically stored in the
