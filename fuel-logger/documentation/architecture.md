@@ -33,6 +33,9 @@ package to store the information locally. _RefuelingManager_ uses
 _Database_ class from _fuellogger.dao_ package to save the data to a
 SQLite database. 
 
+## Class diagram
+![diagram](images/class%20diagram.png)
+
 ### Startup sequence
 ![startup sequence](images/startupseq.png)
 JavaFX GUI is launched. GUI creates a new ConfigFile. Database name
@@ -62,7 +65,3 @@ RefuelingManager's local HashMap of <Car, Refueling> pairs.
 Databases addRefueling() tries to insert refueling into the database, if
 the insertion is success it returns true. The created refueling object
 is added to GUIs observablelist.
-
-
-## Class diagram
-![diagram](images/class%20diagram.png)
