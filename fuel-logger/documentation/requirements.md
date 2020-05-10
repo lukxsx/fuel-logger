@@ -11,6 +11,7 @@ need for them.
 
 ## Basic functionality
 - [x] Graphical user interface
+- [x] Data is stored in SQLite database
 - [x] Adding a car (name, fuel tank capacity etc.)
 - [x] Selecting a car to use
 - [x] Logging a refueling (kilometrage, volume in litres)
@@ -18,6 +19,7 @@ need for them.
 - [x] Viewing graphs of fuel consumption
 - [x] Viewing graphs of cost
 - [x] Viewing graphs of driven kilometres
+- [x] Configuration file to specify database file name
 
 ## Future features
 - [ ] Text-based UI for quick fuel logging without need for opening the
