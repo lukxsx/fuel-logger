@@ -12,9 +12,10 @@ import java.util.ArrayList;
 public class Database {
 
     private Connection db;
+    private boolean error;
 
     public Database(String filename) {
-
+        error = false;
         try {
             db = DriverManager.getConnection("jdbc:sqlite:" + filename);
 
@@ -25,7 +26,7 @@ public class Database {
                     + "car_id INTEGER, odometer INTEGER UNIQUE, volume REAL"
                     + ", price REAL, day INTEGER, month INTEGER, year INTEGER)");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            this.error = true;
         }
 
     }
@@ -62,7 +63,7 @@ public class Database {
                         carResults.getInt("fuel_capacity")));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            
         }
         return cars;
     }
@@ -108,7 +109,7 @@ public class Database {
                 return idQueryResults.getInt("id");
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            // method returns zerp if error
         }
         return 0;
     }
@@ -127,7 +128,7 @@ public class Database {
                 return new Car(carQresults.getString("name"), carQresults.getInt("fuel_capacity"));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            // return null if error
         }
         return null;
     }
@@ -150,7 +151,7 @@ public class Database {
                         refResults.getDouble("price"), d));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            // method returns just empty arraylist if error
         }
         return refuelings;
     }
@@ -174,7 +175,7 @@ public class Database {
                 refuelings.add(r);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            // method returns just empty arraylist if error
         }
 
         return refuelings;
@@ -183,14 +184,19 @@ public class Database {
     /**
      * Clears the database of all cars and refuelings. Used for tests. 
      */
-    public void clear() {
+    public boolean clear() {
         try {
             Statement s = db.createStatement();
             s.execute("DELETE FROM Car");
             s.execute("DELETE FROM Refueling");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            return false;
         }
+        return true;
+    }
+
+    public boolean isError() {
+        return error;
     }
 
 }

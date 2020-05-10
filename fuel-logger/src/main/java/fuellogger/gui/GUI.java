@@ -71,6 +71,17 @@ public class GUI extends Application {
         String dbname = config.getDbname();
 
         Database d = new Database(dbname);
+        if (d.isError()) {
+            Alert dbError = new Alert(AlertType.ERROR);
+            dbError.setTitle("Database error");
+            dbError.setContentText("An error occurred in the SQLite database."
+                    + " Check the database file \"" + dbname + "\". If the"
+                            + " problem persists, try deleting the file and"
+                            + " check the SQLite configuration. You can continue"
+                            + " to use the application, but there may be"
+                            + " problems with storing data.");
+            dbError.show();
+        }
         
         this.rm = new RefuelManager(d);
         this.sm = new StatisticsManager(rm);
