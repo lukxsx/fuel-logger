@@ -1,0 +1,8 @@
+User->GUI: insert refueling details to fields
+User->GUI: click refueling adding button
+GUI->*Refueling: new Refueling() r
+GUI->RefuelManager: addRefueling(r)
+RefuelManager->Database: addRefueling(r)
+Database-->RefuelManager: true
+GUI->GUI: refuelData.add(r)
+GUI-->User:

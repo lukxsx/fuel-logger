@@ -1,0 +1,12 @@
+Main->*GUI: launch(args)
+GUI->*ConfigFile: new ConfigFile(filename)
+ConfigFile-->GUI: getDbName()
+GUI->*Database: db = new Database(dbName)
+GUI->Database: isError()
+Database-->GUI: false
+GUI->*RefuelManager: rm = new RefuelManager(db)
+GUI->*StatisticsManager: sm = new StatisticsManager(rm)
+GUI->RefuelManager: getCars()
+RefuelManager->Database: getCars()
+Database-->RefuelManager: new ArrayList<Car> cars
+RefuelManager-->GUI: cars

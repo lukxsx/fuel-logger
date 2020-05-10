@@ -1,0 +1,8 @@
+User->GUI: insert car details to fields
+User->GUI: click car adding button
+GUI->*Car: new Car() c
+GUI->RefuelManager: addCar(c)
+RefuelManager->Database: addCar(c)
+Database-->RefuelManager: true
+GUI->GUI: carData.add(c)
+GUI-->User:

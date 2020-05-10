@@ -1,7 +1,7 @@
 # Architecture
 
 ## Structure
-![package structure](packages.png)
+![package structure](images/packages.png)
 * _fuellogger.ui_ contains a graphical user interface.
 * _fuellogger.logic_ contains the main application logic that manages
 cars and refuelings. It also performs calculations used for statistic
@@ -33,15 +33,36 @@ package to store the information locally. _RefuelingManager_ uses
 _Database_ class from _fuellogger.dao_ package to save the data to a
 SQLite database. 
 
+### Startup sequence
+![startup sequence](images/startupseq.png)
+JavaFX GUI is launched. GUI creates a new ConfigFile. Database name
+value is read from ConfigFile. A new Database is created with dbName.
+A new RefuelManager is created with the Database. A new StatisticsManager
+is created with RefuelManager. GUI asks RefuelManager for a list of
+cars. RefuelManager fetches cars from the Database. A list of cars is
+shown in the GUI.
+
 ### Car adding sequence diagram
-![car adding sequence](caraddseq.png)
+![car adding sequence](images/caraddseq.png)
 
 User inserts car's details in fields and clicks car adding button. 
 A new car object is created and addCar() method in RefuelingManager
-class is called. Logic object adds car in it's local arraylist of cars
-and calls Database objects addCar() method. Databases addCar() tries to
-insert car into the database, if the insertion is success it returns
-true. The created car object is added to GUIs observablelist.
+class is called. RefuelManager tries to add car into the Database with
+Database's addCar() method. If it returns true the car is also added
+into RefuelManager's local ArrayList of cars. The created car object is
+added to GUIs observablelist.
+
+### Refueling adding sequence diagram
+![refuel adding seq](images/refueladdseq.png)
+User inserts refueling details in fields and clicks adding button. 
+A new refueling object is created and addRefueling() method in
+RefuelingManager class is called. RefuelManager calls Database's
+addRefueling(). If it returns true, the refueling is also added into
+RefuelingManager's local HashMap of <Car, Refueling> pairs.
+Databases addRefueling() tries to insert refueling into the database, if
+the insertion is success it returns true. The created refueling object
+is added to GUIs observablelist.
+
 
 ## Class diagram
-![diagram](class%20diagram.png)
+![diagram](images/class%20diagram.png)

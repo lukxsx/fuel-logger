@@ -64,8 +64,9 @@ public class RefuelManager {
      * @param refueling refueling to be added
      */
     public void addRefueling(Refueling refueling) {
-        this.refuelings.get(refueling.car).add(refueling);
-        this.db.addRefueling(refueling);
+        if (this.db.addRefueling(refueling)) {
+            this.refuelings.get(refueling.car).add(refueling);
+        }
     }
 
     /**
