@@ -15,17 +15,6 @@ A program to keep track of the fuel consumption of a car. It can show interestin
 * [Testing report](fuel-logger/documentation/testing.md)
 
 ## Commands
-
-### Running tests
-```
-mvn test
-```
-
-### Test coverage
-```
-mvn test jacoco:report
-```
-
 ### Running from Maven
 ```
 mvn compile exec:java -Dexec.mainClass=fuellogger.Main
@@ -36,6 +25,16 @@ mvn compile exec:java -Dexec.mainClass=fuellogger.Main
 mvn package
 ```
 Jar file will be generated in _target/fuel-logger-1.0-SNAPSHOT.jar_
+
+### Running tests
+```
+mvn test
+```
+
+### Test coverage
+```
+mvn test jacoco:report
+```
 
 ### Checkstyle
 ```
