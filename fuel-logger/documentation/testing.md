@@ -23,7 +23,7 @@ few tests.
 The user interface is not tested. 
 
 ## Test coverage
-![test coverage](testcoverage.png)
+![test coverage](images/testcoverage.png)
 
 ## Manual testing
 The software is also tested on Cubbli virtual machine, my own PC running
