@@ -11,6 +11,9 @@ used to store information in the application.
 * _fuellogger.dao_ contains classes used to save data into the hard
 disk. (SQLite database and config file)
 
+## Class diagram
+![diagram](images/class%20diagram.png)
+
 ## Application logic
 Application logic is implemented with the _RefuelManager_ and
 _StatisticsManager_ classes. 
@@ -32,9 +35,6 @@ Logic classes use the _Car_ and _Refueling_ classes from _fuellogger.domain_
 package to store the information locally. _RefuelingManager_ uses 
 _Database_ class from _fuellogger.dao_ package to save the data to a
 SQLite database. 
-
-## Class diagram
-![diagram](images/class%20diagram.png)
 
 ### Startup sequence
 ![startup sequence](images/startupseq.png)
