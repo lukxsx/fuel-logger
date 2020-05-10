@@ -89,7 +89,7 @@ public class GUI extends Application {
         this.currentCar = null;
 
         // window settings
-        primaryStage.setWidth(800);
+        primaryStage.setWidth(900);
         primaryStage.setHeight(600);
         primaryStage.setTitle("Fuel logger");
 
