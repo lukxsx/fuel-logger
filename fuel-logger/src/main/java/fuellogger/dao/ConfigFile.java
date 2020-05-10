@@ -17,11 +17,13 @@ public class ConfigFile {
     private String dbname;
     private Properties p;
     private String filename;
+    private String defaultname;
 
     public ConfigFile(String filename) {
         this.filename = filename;
         p = new Properties();
-        this.dbname = "database.db"; // default name if config file fails 
+        this.defaultname = "database.db"; // default name if config file fails 
+        this.dbname = defaultname;
 
         // load properties if file exists, create new file if needed
         try {
@@ -41,7 +43,11 @@ public class ConfigFile {
      * @return name of the database file
      */
     public String getDbname() {
-        return this.dbname;
+        if (dbname != null) {
+            return this.dbname;
+        } else {
+            return this.defaultname;
+        }
     }
 
     /**
