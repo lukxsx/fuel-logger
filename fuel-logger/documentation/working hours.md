@@ -14,4 +14,5 @@
 | 7.5.  | 0.5  | more validations on input dialogs, improved appearance |
 | 8.5.  | 2    | config file, separate logic classes, error dialogs |
 | 9.5   | 2    | more tests, documentation |
-| total | 28.5 |  |
+| 10.5. | 3    | bigfixes, documentations, javadocs, final release |
+| total | 31.5 |  |
