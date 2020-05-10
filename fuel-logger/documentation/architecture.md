@@ -36,8 +36,40 @@ package to store the information locally. _RefuelingManager_ uses
 _Database_ class from _fuellogger.dao_ package to save the data to a
 SQLite database. 
 
+## Data storage
+### Database
+This application uses a SQLite database to save the Car and Refueling
+objects. __Database__ class handles reading and inserting to the
+database. The database file is created and read to the
+directory where the application is executed. By default the name of the
+file is _database.db_. The database uses ```UNIQUE``` constraints to
+avoid duplicate entries in the database. 
+
+#### Database schema
+```
+CREATE TABLE Car (id INTEGER PRIMARY KEY, name TEXT UNIQUE, fuel_capacity INTEGER NOT NULL);
+CREATE TABLE Refueling (id INTEGER PRIMARY KEY, car_id INTEGER, odometer INTEGER UNIQUE,
+volume REAL, day INTEGER, month INTEGER, year INTEGER, price REAL);
+```
+
+### Config file
+There is a configuration file called _fuellogger.conf_ that is used to
+specify the database file SQLite uses. The configuration file is created
+automatically with the default value if no such file exists. There is no
+need to create the config file manually. There is currently no way
+to validate if the config file is correct. It is only checked if the
+file exists. However in case the file is missing or it doesn't contain
+the dbname property, default value _database.db_ is used instead.
+
+The configuration file looks like this:
+```dbname=database.db```
+
+
+## Sequences
+
 ### Startup sequence
 ![startup sequence](images/startupseq.png)
+
 JavaFX GUI is launched. GUI creates a new ConfigFile. Database name
 value is read from ConfigFile. A new Database is created with dbName.
 A new RefuelManager is created with the Database. A new StatisticsManager
@@ -57,6 +89,7 @@ added to GUIs observablelist.
 
 ### Refueling adding sequence diagram
 ![refuel adding seq](images/refueladdseq.png)
+
 User inserts refueling details in fields and clicks adding button. 
 A new refueling object is created and addRefueling() method in
 RefuelingManager class is called. RefuelManager calls Database's
