@@ -13,8 +13,7 @@ which it is executed. There is no need to configure the software in
 normal use use but if desired, the user can change the database file
 used using the _fuellogger.conf_ file. 
 
-The config file looks like this
-```dbname=database.db```
+The config file looks like this ```dbname=database.db```.
 The database name can be changed by changing _database.db_ to some other
 name. 
 
