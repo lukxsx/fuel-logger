@@ -27,6 +27,11 @@ public class Car {
         return hash;
     }
 
+    /**
+     * Equals method to compare car objects and prevent duplicates
+     * @param obj compared car
+     * @return true, if same
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

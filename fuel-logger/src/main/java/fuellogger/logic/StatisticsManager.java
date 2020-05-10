@@ -16,6 +16,11 @@ public class StatisticsManager {
         this.rm = rm;
     }
 
+    /**
+     * Counts the average consumption of a specified car
+     * @param car car to be used
+     * @return average consumption
+     */
     public double avgConsumption(Car car) {
         ArrayList<Refueling> refs = rm.getRefuelings(car);
         if (refs.isEmpty() || refs.size() == 1) {

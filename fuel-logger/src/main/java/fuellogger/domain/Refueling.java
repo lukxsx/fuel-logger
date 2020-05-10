@@ -8,6 +8,11 @@ import java.util.Objects;
  */
 public class Refueling implements Comparable<Refueling> {
     
+    /*
+    these variables are public because this class is mainly used for storing
+    data and these values are referenced and needed very often. 
+    */
+    
     /**
      * Car that this refueling belongs to
      */
@@ -40,6 +45,8 @@ public class Refueling implements Comparable<Refueling> {
         this.date = date;
         this.price = price;
     }
+    
+    // these getter methods are required to make the GUI's tableview work
 
     public int getOdometer() {
         return odometer;
@@ -69,6 +76,11 @@ public class Refueling implements Comparable<Refueling> {
         return this.volume * this.price;
     }
 
+    /**
+     * Compares two refueling objects based on the odometer value
+     * @param t
+     * @return 
+     */
     @Override
     public int compareTo(Refueling t) {
         if (t.odometer < this.odometer) {

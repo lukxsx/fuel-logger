@@ -195,6 +195,10 @@ public class Database {
         return true;
     }
 
+    /**
+     * Returns true if there was an error at initializing the database
+     * @return returns true, if there was an error
+     */
     public boolean isError() {
         return error;
     }
