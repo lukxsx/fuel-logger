@@ -22,18 +22,18 @@ public class StatisticsManager {
      * @return average consumption
      */
     public double avgConsumption(Car car) {
-        ArrayList<Refueling> refs = rm.getRefuelings(car);
-        if (refs.isEmpty() || refs.size() == 1) {
+        ArrayList<Refueling> refuelings = rm.getRefuelings(car);
+        if (refuelings.isEmpty() || refuelings.size() == 1) {
             return 0;
         }
         double liters = 0;
-        for (int i = 1; i < refs.size(); i++) {
-            liters = liters + refs.get(i).volume;
+        for (int i = 1; i < refuelings.size(); i++) {
+            liters = liters + refuelings.get(i).volume;
         }
 
-        Collections.sort(refs);
+        Collections.sort(refuelings);
 
-        int kms = refs.get(refs.size() - 1).odometer - refs.get(0).odometer;
+        int kms = refuelings.get(refuelings.size() - 1).odometer - refuelings.get(0).odometer;
 
         return liters / kms * 100;
     }
@@ -45,16 +45,16 @@ public class StatisticsManager {
      * @return consumption
      */
     public double getConsumption(Refueling refueling) {
-        ArrayList<Refueling> refs = rm.getRefuelings(refueling.car);
-        Collections.sort(refs);
-        int index = refs.indexOf(refueling);
-        if (index == refs.size() - 1) {
+        ArrayList<Refueling> refuelings = rm.getRefuelings(refueling.car);
+        Collections.sort(refuelings);
+        int index = refuelings.indexOf(refueling);
+        if (index == refuelings.size() - 1) {
             return 0;
             // can't count consumption from the latest refueling
             // because we don't know about the next refueling yet
         }
 
-        Refueling next = refs.get(index + 1);
+        Refueling next = refuelings.get(index + 1);
 
         int kms = next.odometer - refueling.odometer;
         return next.volume / kms * 100;
@@ -69,11 +69,11 @@ public class StatisticsManager {
      * @return average consumption by month
      */
     public double monthAvg(Car car, int month, int year) {
-        ArrayList<Refueling> monthlyrefuelings = rm.refuelingsInMonth(car, month, year);
+        ArrayList<Refueling> monthlyRefuelings = rm.refuelingsInMonth(car, month, year);
 
         double sum = 0;
         int counter = 0;
-        for (Refueling r : monthlyrefuelings) {
+        for (Refueling r : monthlyRefuelings) {
             double cons = getConsumption(r);
             if (cons != 0) {
                 sum = sum + cons;
@@ -97,12 +97,12 @@ public class StatisticsManager {
      * @return driven kilometers by month
      */
     public int kmsInMonth(Car car, int month, int year) {
-        ArrayList<Refueling> monthlyrefuelings = rm.refuelingsInMonth(car, month, year);
-        if (monthlyrefuelings.isEmpty()) {
+        ArrayList<Refueling> monthlyRefuelings = rm.refuelingsInMonth(car, month, year);
+        if (monthlyRefuelings.isEmpty()) {
             return 0;
         }
-        int km1 = monthlyrefuelings.get(0).getOdometer();
-        int km2 = monthlyrefuelings.get(monthlyrefuelings.size() - 1).getOdometer();
+        int km1 = monthlyRefuelings.get(0).getOdometer();
+        int km2 = monthlyRefuelings.get(monthlyRefuelings.size() - 1).getOdometer();
         return Math.abs(km2 - km1);
     }
 
@@ -160,9 +160,9 @@ public class StatisticsManager {
      * @return cost per month
      */
     public double costPerMonth(Car car, int month, int year) {
-        ArrayList<Refueling> monthlyrefuelings = rm.refuelingsInMonth(car, month, year);
+        ArrayList<Refueling> monthlyRefuelings = rm.refuelingsInMonth(car, month, year);
         double totalcost = 0;
-        for (Refueling r : monthlyrefuelings) {
+        for (Refueling r : monthlyRefuelings) {
             totalcost = totalcost + r.getCost();
         }
         return totalcost;

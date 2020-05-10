@@ -59,7 +59,7 @@ public class RefuelManager {
     }
 
     /**
-     * Adds a refueling to locally and to the db
+     * Adds a refueling locally and to the db
      *
      * @param refueling refueling to be added
      */
@@ -70,7 +70,7 @@ public class RefuelManager {
     }
 
     /**
-     * Get all refuelings of a specified car
+     * Get all refuelings (from db) of a specified car
      *
      * @param car
      * @return a list of refuelings
@@ -90,7 +90,7 @@ public class RefuelManager {
     }
     
     /**
-     * Returns all refuelings from a specified month
+     * Returns all refuelings from a specified month and year
      *
      * @param car car connected to the refuelings
      * @param month month
@@ -98,15 +98,15 @@ public class RefuelManager {
      * @return list of refuelings by specified month
      */
     public ArrayList<Refueling> refuelingsInMonth(Car car, int month, int year) {
-        ArrayList<Refueling> allrefuelings = getRefuelings(car);
-        ArrayList<Refueling> valid = new ArrayList<>();
+        ArrayList<Refueling> allRefuelings = getRefuelings(car);
+        ArrayList<Refueling> filtered = new ArrayList<>();
 
-        for (Refueling r : allrefuelings) {
+        for (Refueling r : allRefuelings) {
             if (r.getDate().getMonthValue() == month && r.getDate().getYear() == year) {
-                valid.add(r);
+                filtered.add(r);
             }
         }
-        return valid;
+        return filtered;
     }
     
       /**

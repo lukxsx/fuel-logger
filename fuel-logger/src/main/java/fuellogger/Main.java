@@ -3,7 +3,7 @@ package fuellogger;
 import fuellogger.gui.GUI;
 
 /**
- * The main class that launchs the GUI's main function. Thís fixes launching
+ * The main class that launches the GUI's main function. This fixes launching
  * JavaFX applications from the jar. 
  */
 public class Main {

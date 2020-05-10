@@ -7,17 +7,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * This class manages the SQLite database. It converts Car and Refueling objects to database and vice versa.
+ * This class manages the SQLite database. It converts Car and Refueling objects
+ * to database and vice versa.
  */
 public class Database {
 
     private Connection db;
     private boolean error;
 
-    public Database(String filename) {
-        error = false;
+    public Database(String dbName) {
+        this.error = false;
+        this.db = null;
         try {
-            db = DriverManager.getConnection("jdbc:sqlite:" + filename);
+            db = DriverManager.getConnection("jdbc:sqlite:" + dbName);
 
             Statement s = db.createStatement();
             s.execute("CREATE TABLE IF NOT EXISTS Car (id INTEGER PRIMARY KEY, name TEXT UNIQUE,"
@@ -30,14 +32,14 @@ public class Database {
         }
 
     }
-    
+
     /**
-    * Adds a Car object to the database.
-    * 
-    * @param car a car object to be added
-    * 
-    * @return   returns true if car was added successfully to the database
-    */
+     * Adds a Car object to the database.
+     *
+     * @param car a car object to be added
+     *
+     * @return returns true if car was added successfully to the database
+     */
     public boolean addCar(Car car) {
         try (PreparedStatement s = db.prepareStatement("INSERT INTO Car (name, fuel_capacity) VALUES (?, ?)")) {
             s.setString(1, car.getName());
@@ -48,9 +50,10 @@ public class Database {
         }
         return true;
     }
-    
+
     /**
      * Returns an ArrayList of all cars in the database.
+     *
      * @return a list of cars in the database
      */
     public ArrayList<Car> getCars() {
@@ -67,9 +70,10 @@ public class Database {
         }
         return cars;
     }
-    
+
     /**
      * Adds a Refueling to the database
+     *
      * @param refueling refueling object to be added
      * @return returns true if adding was successful
      */
@@ -81,6 +85,7 @@ public class Database {
         try (PreparedStatement s = db.prepareStatement("INSERT INTO Refueling "
                 + "(car_id, odometer, volume, price, day, month, year) VALUES "
                 + "(?, ?, ?, ?, ?, ?, ?)")) {
+            
             s.setInt(1, carid);
             s.setInt(2, refueling.odometer);
             s.setDouble(3, refueling.volume);
@@ -88,16 +93,18 @@ public class Database {
             s.setInt(5, refueling.date.getDayOfMonth());
             s.setInt(6, refueling.date.getMonthValue());
             s.setInt(7, refueling.date.getYear());
+            
             s.executeUpdate();
         } catch (Exception e) {
             return false;
         }
         return true;
     }
-    
+
     /**
      * Returns id of a car (in the database)
-     * @param car   the car to find the id
+     *
+     * @param car the car to find the id
      * @return returns the id or zero if the car could not be found
      */
     public int getCarId(Car car) {
@@ -113,9 +120,10 @@ public class Database {
         }
         return 0;
     }
-    
+
     /**
      * Get a car by it's database id
+     *
      * @param id id you want to get
      * @return returns the car or null if no car with the id could be found
      */
@@ -135,6 +143,7 @@ public class Database {
 
     /**
      * Returns a list of all refuelings in the database
+     *
      * @return list of all refuelings
      */
     public ArrayList<Refueling> getRefuelings() {
@@ -155,10 +164,11 @@ public class Database {
         }
         return refuelings;
     }
-    
+
     /**
      * Returns a list of refuelings of a specified car
-     * @param car   car to get refuelings from
+     *
+     * @param car car to get refuelings from
      * @return refuelings of a car
      */
     public ArrayList<Refueling> getRefuelings(Car car) {
@@ -180,9 +190,9 @@ public class Database {
 
         return refuelings;
     }
-    
+
     /**
-     * Clears the database of all cars and refuelings. Used for tests. 
+     * Clears the database of all cars and refuelings. Used for tests.
      */
     public boolean clear() {
         try {
@@ -197,6 +207,7 @@ public class Database {
 
     /**
      * Returns true if there was an error at initializing the database
+     *
      * @return returns true, if there was an error
      */
     public boolean isError() {

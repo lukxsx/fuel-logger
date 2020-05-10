@@ -1,6 +1,5 @@
 package fuellogger.dao;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class reads the config file and creates it if needed
+ * This class reads the configuration file and creates it if needed
  *
  */
 public class ConfigFile {
@@ -31,7 +30,7 @@ public class ConfigFile {
         } catch (FileNotFoundException ex) {
             newConfigFile(); // if file not found, create a new config file
         } catch (IOException ex) {
-            Logger.getLogger(ConfigFile.class.getName()).log(Level.SEVERE, null, ex);
+            newConfigFile(); // if file not found, create a new config file
         }
 
     }
@@ -39,14 +38,14 @@ public class ConfigFile {
     /**
      * Returns the database name to be used
      *
-     * @return the name of the database file
+     * @return name of the database file
      */
     public String getDbname() {
         return this.dbname;
     }
 
     /**
-     * Creates a new config file with default value
+     * Creates a new configuration file with default value
      */
     public void newConfigFile() {
         PrintWriter writer;
