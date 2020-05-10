@@ -3,8 +3,9 @@
 A program to keep track of the fuel consumption of a car. It can show interesting charts and data of your car's fuel consumption and cost of ownership. 
 
 ## Releases
-* [viikko 6](https://github.com/Lukxsx/ot-harjoitustyo/releases/tag/viikko6)
-* [viikko 5](https://github.com/Lukxsx/ot-harjoitustyo/releases/tag/viikko5)
+* [Final release](https://github.com/Lukxsx/ot-harjoitustyo/releases/tag/final)
+* [Viikko 6](https://github.com/Lukxsx/ot-harjoitustyo/releases/tag/viikko6)
+* [Viikko 5](https://github.com/Lukxsx/ot-harjoitustyo/releases/tag/viikko5)
 
 ## Documentation
 * [Requirements](fuel-logger/documentation/requirements.md)
