@@ -33,8 +33,6 @@ package to store the information locally. _RefuelingManager_ uses
 _Database_ class from _fuellogger.dao_ package to save the data to a
 SQLite database. 
 
-![logic](logic.png)
-
 ### Car adding sequence diagram
 ![car adding sequence](caraddseq.png)
 
